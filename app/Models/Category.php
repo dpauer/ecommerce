@@ -14,6 +14,14 @@ class Category extends Model
 
     protected $fillable = ['name'];
 
+    protected function casts(): array
+    {
+        return [
+            'created_at' => 'datetime:Y-m-d H:i:s',
+            'updated_at' => 'datetime:Y-m-d H:i:s',
+        ];
+    }
+
     public function attributes(): HasMany
     {
         return $this->hasMany(Attribute::class);

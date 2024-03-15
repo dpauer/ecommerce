@@ -1,22 +1,32 @@
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
-import { PageProps } from '@/types';
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import { Head, Link } from "@inertiajs/react";
+import Card from "react-bootstrap/Card";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
 
-export default function Dashboard({ auth }: PageProps) {
+export default function Dashboard() {
     return (
-        <AuthenticatedLayout
-            user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Dashboard</h2>}
-        >
+        <AuthenticatedLayout>
             <Head title="Dashboard" />
 
-            <div className="py-12">
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                        <div className="p-6 text-gray-900 dark:text-gray-100">You're logged in!</div>
-                    </div>
-                </div>
-            </div>
+            <Row className="mt-3">
+                <Col>
+                    <Card>
+                        <Card.Body>
+                            <Link href={route("dashboard.categories.index")}>
+                                Categories
+                            </Link>
+                        </Card.Body>
+                    </Card>
+                </Col>
+            </Row>
+            <Row className="mt-3">
+                <Col>
+                    <Card>
+                        <Card.Body>Products</Card.Body>
+                    </Card>
+                </Col>
+            </Row>
         </AuthenticatedLayout>
     );
 }
