@@ -1,6 +1,5 @@
 import PageHeader from "@/Components/DataDisplay/PageHeader";
 import Breadcrumbs from "@/Components/Navigation/Breadcrumbs";
-import Layout from "@/Layouts/Layout";
 import { Category, PageProps } from "@/types";
 import { Link } from "@inertiajs/react";
 import Table from "react-bootstrap/Table";
@@ -9,7 +8,7 @@ export default function ({
     categories,
 }: PageProps<{ categories: Category[] }>): JSX.Element {
     return (
-        <Layout>
+        <>
             <Breadcrumbs
                 items={[
                     {
@@ -53,6 +52,6 @@ export default function ({
                     ))}
                 </tbody>
             </Table>
-        </Layout>
+        </>
     );
 }

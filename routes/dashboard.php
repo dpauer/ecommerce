@@ -14,6 +14,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('dashboard.categories.index');
     Route::get('dashboard/categories/{category}', [CategoryController::class, 'show'])
         ->name('dashboard.categories.show');
+    Route::get('dashboard/categories/{category}/edit', [CategoryController::class, 'edit'])
+        ->name('dashboard.categories.edit');
+    Route::patch('dashboard/categories/{category}', [CategoryController::class, 'update'])
+        ->name('dashboard.categories.update');
 
     Route::get('dashboard/categories/{category}/attributes/{attribute}', [AttributeController::class, 'show'])
         ->name('dashboard.categories.attributes.show');

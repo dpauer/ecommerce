@@ -1,5 +1,4 @@
 import Breadcrumbs from "@/Components/Navigation/Breadcrumbs";
-import Layout from "@/Layouts/Layout";
 import { Link } from "@inertiajs/react";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
@@ -7,7 +6,7 @@ import Row from "react-bootstrap/Row";
 
 export default function Dashboard() {
     return (
-        <Layout>
+        <>
             <Breadcrumbs
                 items={[
                     {
@@ -36,6 +35,6 @@ export default function Dashboard() {
                     </Card>
                 </Col>
             </Row>
-        </Layout>
+        </>
     );
 }

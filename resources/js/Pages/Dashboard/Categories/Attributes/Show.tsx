@@ -3,7 +3,6 @@ import DetailsCard from "@/Components/DataDisplay/DetailsCard";
 import PageHeader from "@/Components/DataDisplay/PageHeader";
 import PageSubHeader from "@/Components/DataDisplay/PageSubHeader";
 import Breadcrumbs from "@/Components/Navigation/Breadcrumbs";
-import Layout from "@/Layouts/Layout";
 import { Attribute, AttributeValue, Category, PageProps } from "@/types";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
@@ -20,7 +19,7 @@ export default function ({
     attributeValues: AttributeValue[];
 }>): JSX.Element {
     return (
-        <Layout>
+        <>
             <Breadcrumbs
                 items={[
                     {
@@ -123,6 +122,6 @@ export default function ({
                     ))}
                 </tbody>
             </Table>
-        </Layout>
+        </>
     );
 }

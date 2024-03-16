@@ -7,7 +7,6 @@ import DeleteButton from "@/Components/General/DeleteButton";
 import EditButton from "@/Components/General/EditButton";
 import HSpace from "@/Components/Layout/HSpace";
 import Breadcrumbs from "@/Components/Navigation/Breadcrumbs";
-import Layout from "@/Layouts/Layout";
 import { Attribute, Category, PageProps } from "@/types";
 import { Link } from "@inertiajs/react";
 import Col from "react-bootstrap/Col";
@@ -19,7 +18,7 @@ export default function ({
     attributes,
 }: PageProps<{ category: Category; attributes: Attribute[] }>): JSX.Element {
     return (
-        <Layout>
+        <>
             <Breadcrumbs
                 items={[
                     {
@@ -44,7 +43,11 @@ export default function ({
                 title="Category"
                 extra={
                     <HSpace>
-                        <EditButton />
+                        <EditButton
+                            url={route("dashboard.categories.edit", {
+                                category,
+                            })}
+                        />
                         <DeleteButton />
                     </HSpace>
                 }
@@ -109,6 +112,6 @@ export default function ({
                     ))}
                 </tbody>
             </Table>
-        </Layout>
+        </>
     );
 }

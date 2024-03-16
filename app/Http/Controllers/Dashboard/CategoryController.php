@@ -24,4 +24,24 @@ class CategoryController extends Controller
             'attributes' => $category->attributes,
         ]);
     }
+
+    public function edit(Category $category)
+    {
+        return Inertia::render('Dashboard/Categories/Edit', [
+            'category' => $category,
+        ]);
+    }
+
+    public function update(Request $request, Category $category)
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255']
+        ]);
+
+        $category->update($request->all());
+
+        return redirect(route('dashboard.categories.show', [
+            'category' => $category,
+        ]));
+    }
 }
