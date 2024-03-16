@@ -1,5 +1,5 @@
-import GuestLayout from "@/Layouts/GuestLayout";
-import { Head, Link, useForm } from "@inertiajs/react";
+import Layout from "@/Layouts/Layout";
+import { Link, useForm } from "@inertiajs/react";
 import { FormEventHandler, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
@@ -31,9 +31,7 @@ export default function Login({
     };
 
     return (
-        <GuestLayout>
-            <Head title="Log in" />
-
+        <Layout>
             <Card className="mt-3">
                 <Card.Body>
                     <Form onSubmit={submit}>
@@ -103,6 +101,6 @@ export default function Login({
                     </Form>
                 </Card.Body>
             </Card>
-        </GuestLayout>
+        </Layout>
     );
 }

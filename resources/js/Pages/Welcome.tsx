@@ -1,4 +1,4 @@
-import ECommerceNavbar from "@/Layouts/ECommerceNavbar";
+import Nav from "@/Layouts/Nav";
 import { Category, PageProps } from "@/types";
 import { Head, Link } from "@inertiajs/react";
 import Container from "react-bootstrap/Container";
@@ -11,7 +11,7 @@ export default function Welcome({
     return (
         <>
             <Head title="Welcome" />
-            <ECommerceNavbar />
+            <Nav />
             <Container>
                 <h1>Categories</h1>
                 <Table striped bordered hover>

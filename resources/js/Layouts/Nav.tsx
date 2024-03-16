@@ -26,13 +26,6 @@ export default function (): JSX.Element {
                                     id="basic-nav-dropdown"
                                 >
                                     <NavDropdown.Item
-                                        as={Link}
-                                        href={route("profile.edit")}
-                                    >
-                                        Profile
-                                    </NavDropdown.Item>
-                                    <NavDropdown.Divider />
-                                    <NavDropdown.Item
                                         onClick={() => {
                                             router.post(route("logout"));
                                         }}
@@ -45,9 +38,6 @@ export default function (): JSX.Element {
                             <>
                                 <Nav.Link as={Link} href={route("login")}>
                                     Log in
-                                </Nav.Link>
-                                <Nav.Link as={Link} href={route("register")}>
-                                    Register
                                 </Nav.Link>
                             </>
                         )}

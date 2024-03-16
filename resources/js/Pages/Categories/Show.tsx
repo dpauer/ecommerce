@@ -1,4 +1,4 @@
-import ECommerceNavbar from "@/Layouts/ECommerceNavbar";
+import Nav from "@/Layouts/Nav";
 import { Category, PageProps } from "@/types";
 import Container from "react-bootstrap/Container";
 
@@ -8,7 +8,7 @@ export default function ({
 }: PageProps<{ category: Category }>): JSX.Element {
     return (
         <>
-            <ECommerceNavbar />
+            <Nav />
             <Container>
                 <h1>Category</h1>
                 <p>{JSON.stringify(category)}</p>

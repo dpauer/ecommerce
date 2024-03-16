@@ -1,5 +1,7 @@
-import Authenticated from "@/Layouts/AuthenticatedLayout";
+import Layout from "@/Layouts/Layout";
 import { Attribute, Category, PageProps } from "@/types";
+import { Link } from "@inertiajs/react";
+import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
@@ -10,8 +12,22 @@ export default function ({
     attributes,
 }: PageProps<{ category: Category; attributes: Attribute[] }>): JSX.Element {
     return (
-        <Authenticated>
-            <h1>Category</h1>
+        <Layout>
+            <Row className="align-items-center justify-content-between">
+                <Col className="col-auto">
+                    <h1>Category</h1>
+                </Col>
+                <Col className="col-auto">
+                    <Row className="g-2">
+                        <Col className="col-auto">
+                            <Button variant="warning">MODIFICA</Button>
+                        </Col>
+                        <Col className="col-auto">
+                            <Button variant="danger">ELIMINA</Button>
+                        </Col>
+                    </Row>
+                </Col>
+            </Row>
             <Card>
                 <Card.Body>
                     <Card.Title>Details</Card.Title>
@@ -59,11 +75,23 @@ export default function ({
                             <td>{attribute.id}</td>
                             <td>{attribute.type}</td>
                             <td>{attribute.name}</td>
-                            <td>Details</td>
+                            <td>
+                                <Link
+                                    href={route(
+                                        "dashboard.categories.attributes.show",
+                                        {
+                                            category,
+                                            attribute,
+                                        }
+                                    )}
+                                >
+                                    Details
+                                </Link>
+                            </td>
                         </tr>
                     ))}
                 </tbody>
             </Table>
-        </Authenticated>
+        </Layout>
     );
 }

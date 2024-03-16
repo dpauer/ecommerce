@@ -1,4 +1,4 @@
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import Layout from "@/Layouts/Layout";
 import { Head, Link } from "@inertiajs/react";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
@@ -6,7 +6,7 @@ import Row from "react-bootstrap/Row";
 
 export default function Dashboard() {
     return (
-        <AuthenticatedLayout>
+        <Layout>
             <Head title="Dashboard" />
 
             <Row className="mt-3">
@@ -27,6 +27,6 @@ export default function Dashboard() {
                     </Card>
                 </Col>
             </Row>
-        </AuthenticatedLayout>
+        </Layout>
     );
 }

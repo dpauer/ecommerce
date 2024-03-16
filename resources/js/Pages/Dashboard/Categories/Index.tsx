@@ -1,4 +1,4 @@
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import Layout from "@/Layouts/Layout";
 import { Category, PageProps } from "@/types";
 import { Link } from "@inertiajs/react";
 import Table from "react-bootstrap/Table";
@@ -7,7 +7,7 @@ export default function ({
     categories,
 }: PageProps<{ categories: Category[] }>): JSX.Element {
     return (
-        <AuthenticatedLayout>
+        <Layout>
             <h1>Categories</h1>
             <Table striped bordered hover>
                 <thead>
@@ -35,6 +35,6 @@ export default function ({
                     ))}
                 </tbody>
             </Table>
-        </AuthenticatedLayout>
+        </Layout>
     );
 }

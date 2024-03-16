@@ -1,11 +1,11 @@
 import { PropsWithChildren } from "react";
 import Container from "react-bootstrap/Container";
-import ECommerceNavbar from "./ECommerceNavbar";
+import Nav from "./Nav";
 
-export default function Guest({ children }: PropsWithChildren) {
+export default function Layout({ children }: PropsWithChildren) {
     return (
         <>
-            <ECommerceNavbar />
+            <Nav />
             <Container>{children}</Container>
         </>
     );
