@@ -1,40 +1,33 @@
+import DataTable from "@/Components/DataDisplay/DataTable"
+import { PaginatedData } from "@/Components/DataDisplay/DataTable/types"
+import {
+  formatButtonShowColumn,
+  formatStringColumn,
+} from "@/Components/DataDisplay/DataTable/utils"
 import { Category, PageProps } from "@/types"
-import { Link } from "@inertiajs/react"
-import Table from "react-bootstrap/Table"
 
 export default function Welcome({
   auth,
   categories,
-}: PageProps<{ categories: Category[] }>) {
+}: PageProps<{ categories: PaginatedData<Category> }>) {
   return (
     <>
       <h1>Categories</h1>
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Name</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {categories.map(category => (
-            <tr key={category.id}>
-              <td>{category.id}</td>
-              <td>{category.name}</td>
-              <td>
-                <Link
-                  href={route("categories.show", {
-                    category,
-                  })}
-                >
-                  Details
-                </Link>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
+
+      <DataTable
+        columns={[
+          formatStringColumn("id", {
+            title: "#",
+            style: { width: "10px" },
+            sortable: true,
+          }),
+          formatStringColumn("name"),
+          formatButtonShowColumn("categories.show", row => ({
+            category: row.id,
+          })),
+        ]}
+        paginatedData={categories}
+      />
     </>
   )
 }

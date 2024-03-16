@@ -1,14 +1,11 @@
-TODO: custom validation on attribute-value based on parent attribute type
-
-TODO: card details -> sistemare detail item
-
 TODO: implementazione di base di una datatable
+sort columns
+rapid search
 
 routes
 TODO: file dashboard sta diventando troppo verboso -> raggruppare per prefix/name
 
 dashboard
-TODO: crud attribute values
 TODO: crud products
 
 ecommerce
@@ -17,6 +14,3 @@ TODO: meilisearch implementation??
 
 TODO: scrivere readme
 TODO: sistemare e aggiungere progettazione
-
-frontend
-TODO: context?

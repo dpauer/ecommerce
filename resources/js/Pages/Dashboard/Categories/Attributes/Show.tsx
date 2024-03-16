@@ -119,7 +119,11 @@ export default function ({
       />
       <DataTable
         columns={[
-          formatStringColumn("id"),
+          formatStringColumn("id", {
+            title: "#",
+            style: { width: "10px" },
+            sortable: true,
+          }),
           formatStringColumn("value"),
           formatButtonShowColumn(
             "dashboard.categories.attributes.attribute-values.show",

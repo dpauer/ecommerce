@@ -1,3 +1,5 @@
+import { CSSProperties } from "react"
+
 export interface PaginatedData<T> {
   current_page: number
   data: T[]
@@ -18,11 +20,16 @@ export interface PaginatedData<T> {
   total: number
 }
 
+export interface DataTableColumn<T> {
+  title?: string
+  dataIndex?: keyof T
+  render?: (row: T) => JSX.Element
+  className?: string
+  style?: CSSProperties
+  sortable?: boolean
+}
+
 export interface DataTableProps<T> {
-  columns: {
-    title: string
-    dataIndex?: keyof T
-    render?: (row: T) => JSX.Element
-  }[]
+  columns: DataTableColumn<T>[]
   paginatedData: PaginatedData<T>
 }

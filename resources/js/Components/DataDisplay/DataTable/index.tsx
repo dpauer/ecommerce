@@ -1,4 +1,5 @@
 import { isDefined } from "@/utils/misc"
+import { Link } from "@inertiajs/react"
 import Pagination from "react-bootstrap/Pagination"
 import Table from "react-bootstrap/Table"
 import { DataTableProps } from "./types"
@@ -9,11 +10,13 @@ export default function DataTable<T>({
 }: DataTableProps<T>): JSX.Element {
   return (
     <>
-      <Table striped bordered hover className="mt-1">
+      <Table striped hover bordered className="mt-1">
         <thead>
           <tr>
             {columns.map((el, colIdx) => (
-              <th key={colIdx}>{el.title}</th>
+              <th key={colIdx} className={el.className} style={el.style}>
+                {el.title}
+              </th>
             ))}
           </tr>
         </thead>
@@ -24,20 +27,20 @@ export default function DataTable<T>({
                 if (isDefined(el.dataIndex)) {
                   const value = row[el.dataIndex]
                   return (
-                    <td key={colIdx}>
+                    <td key={colIdx} className={el.className} style={el.style}>
                       <>{value}</>
                     </td>
                   )
                 }
                 if (isDefined(el.render)) {
                   return (
-                    <td key={colIdx}>
+                    <td key={colIdx} className={el.className} style={el.style}>
                       <>{el.render(row)}</>
                     </td>
                   )
                 }
                 return (
-                  <td key={colIdx}>
+                  <td key={colIdx} className={el.className} style={el.style}>
                     <>-</>
                   </td>
                 )
@@ -46,22 +49,39 @@ export default function DataTable<T>({
           ))}
         </tbody>
       </Table>
-      <Pagination>
-        <Pagination.First />
-        <Pagination.Prev />
-        <Pagination.Item>{1}</Pagination.Item>
-        <Pagination.Ellipsis />
-
-        <Pagination.Item>{10}</Pagination.Item>
-        <Pagination.Item>{11}</Pagination.Item>
-        <Pagination.Item active>{12}</Pagination.Item>
-        <Pagination.Item>{13}</Pagination.Item>
-        <Pagination.Item disabled>{14}</Pagination.Item>
-
-        <Pagination.Ellipsis />
-        <Pagination.Item>{20}</Pagination.Item>
-        <Pagination.Next />
-        <Pagination.Last />
+      <Pagination className="d-flex justify-content-end">
+        <Pagination.First as={Link} href={paginatedData.first_page_url} />
+        {isDefined(paginatedData.prev_page_url) ? (
+          <Pagination.Prev as={Link} href={paginatedData.prev_page_url} />
+        ) : (
+          <Pagination.Prev disabled />
+        )}
+        {paginatedData.links.slice(1, -1).map((el, idx) => {
+          if (isDefined(el.url)) {
+            return (
+              <Pagination.Item
+                key={idx}
+                className="d-none d-md-block"
+                active={el.active}
+                as={Link}
+                href={el.url}
+              >
+                {el.label}
+              </Pagination.Item>
+            )
+          }
+          return (
+            <Pagination.Item key={idx} className="d-none d-md-block" disabled>
+              {el.label}
+            </Pagination.Item>
+          )
+        })}
+        {isDefined(paginatedData.next_page_url) ? (
+          <Pagination.Next as={Link} href={paginatedData.next_page_url} />
+        ) : (
+          <Pagination.Next disabled />
+        )}
+        <Pagination.Last as={Link} href={paginatedData.last_page_url} />
       </Pagination>
     </>
   )

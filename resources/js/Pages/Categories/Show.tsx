@@ -1,19 +1,14 @@
-import Nav from "@/Layouts/Nav";
-import { Category, PageProps } from "@/types";
-import Container from "react-bootstrap/Container";
+import { Category, PageProps } from "@/types"
 
 export default function ({
-    auth,
-    category,
+  auth,
+  category,
 }: PageProps<{ category: Category }>): JSX.Element {
-    return (
-        <>
-            <Nav />
-            <Container>
-                <h1>Category</h1>
-                <p>{JSON.stringify(category)}</p>
-                <p>TODO: implementare qui la pagina filtro</p>
-            </Container>
-        </>
-    );
+  return (
+    <>
+      <h1>Category</h1>
+      <p>{JSON.stringify(category)}</p>
+      <p>TODO: implementare qui la pagina filtro</p>
+    </>
+  )
 }

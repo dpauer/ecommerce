@@ -65,10 +65,14 @@ export default function ({
         extra={
           <HSpace>
             <EditButton
-              url={route("dashboard.categories.attributes.edit", {
-                category,
-                attribute,
-              })}
+              url={route(
+                "dashboard.categories.attributes.attribute-values.edit",
+                {
+                  category,
+                  attribute,
+                  attributeValue,
+                },
+              )}
             />
             <DeleteButton
               url={route(

@@ -1,3 +1,9 @@
+import DataTable from "@/Components/DataDisplay/DataTable"
+import { PaginatedData } from "@/Components/DataDisplay/DataTable/types"
+import {
+  formatButtonShowColumn,
+  formatStringColumn,
+} from "@/Components/DataDisplay/DataTable/utils"
 import DetailItem from "@/Components/DataDisplay/DetailItem"
 import DetailsCard from "@/Components/DataDisplay/DetailsCard"
 import PageHeader from "@/Components/DataDisplay/PageHeader"
@@ -5,18 +11,19 @@ import PageSubHeader from "@/Components/DataDisplay/PageSubHeader"
 import CreateButton from "@/Components/General/CreateButton"
 import DeleteButton from "@/Components/General/DeleteButton"
 import EditButton from "@/Components/General/EditButton"
-import ShowButton from "@/Components/General/ShowButton"
 import HSpace from "@/Components/Layout/HSpace"
 import Breadcrumbs from "@/Components/Navigation/Breadcrumbs"
 import { Attribute, Category, PageProps } from "@/types"
 import Col from "react-bootstrap/Col"
 import Row from "react-bootstrap/Row"
-import Table from "react-bootstrap/Table"
 
 export default function ({
   category,
   attributes,
-}: PageProps<{ category: Category; attributes: Attribute[] }>): JSX.Element {
+}: PageProps<{
+  category: Category
+  attributes: PaginatedData<Attribute>
+}>): JSX.Element {
   return (
     <>
       <Breadcrumbs
@@ -90,33 +97,21 @@ export default function ({
         }
       />
 
-      <Table striped bordered hover className="mt-1">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Type</th>
-            <th>Name</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {attributes.map(attribute => (
-            <tr key={attribute.id}>
-              <td>{attribute.id}</td>
-              <td>{attribute.type}</td>
-              <td>{attribute.name}</td>
-              <td>
-                <ShowButton
-                  url={route("dashboard.categories.attributes.show", {
-                    category,
-                    attribute,
-                  })}
-                />
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
+      <DataTable
+        columns={[
+          formatStringColumn("id", {
+            title: "#",
+            style: { width: "10px" },
+            sortable: true,
+          }),
+          formatStringColumn("name"),
+          formatButtonShowColumn(
+            "dashboard.categories.attributes.show",
+            row => ({ category, attribute: row.id }),
+          ),
+        ]}
+        paginatedData={attributes}
+      />
     </>
   )
 }

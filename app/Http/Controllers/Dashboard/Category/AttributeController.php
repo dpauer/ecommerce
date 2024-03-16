@@ -37,7 +37,6 @@ class AttributeController extends Controller
 
     public function show(Category $category, Attribute $attribute)
     {
-        // return $attribute->attributeValues()->paginate();
         return Inertia::render("Dashboard/Categories/Attributes/Show", [
             "category" => $category,
             "attribute" => $attribute,

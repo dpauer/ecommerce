@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Attribute;
 use Illuminate\Http\Request;
 use App\Models\AttributeValue;
+use App\Enums\AttributeTypeEnum;
 use App\Http\Controllers\Controller;
 
 class AttributeValueController extends Controller
@@ -27,8 +28,12 @@ class AttributeValueController extends Controller
         Category $category,
         Attribute $attribute
     ) {
+        $rule = match ($attribute->type) {
+            AttributeTypeEnum::CHECKBOX => ["required", "string", "max:255"],
+            AttributeTypeEnum::COLOR => ["required", "hex_color"],
+        };
         $request->validate([
-            "value" => ["required", "string", "max:255"],
+            "value" => $rule,
         ]);
 
         $attribute->attributeValues()->create($request->all());
@@ -77,8 +82,12 @@ class AttributeValueController extends Controller
         Attribute $attribute,
         AttributeValue $attributeValue
     ) {
+        $rule = match ($attribute->type) {
+            AttributeTypeEnum::CHECKBOX => ["required", "string", "max:255"],
+            AttributeTypeEnum::COLOR => ["required", "hex_color"],
+        };
         $request->validate([
-            "value" => ["required", "string", "max:255"],
+            "value" => $rule,
         ]);
 
         $attributeValue->update($request->all());
