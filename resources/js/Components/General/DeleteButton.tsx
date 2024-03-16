@@ -29,7 +29,7 @@ export default function DeleteButton({
 
     return (
         <>
-            <Button variant="danger" onClick={handleShow}>
+            <Button variant="danger" onClick={handleShow} size="sm">
                 Delete
             </Button>
 

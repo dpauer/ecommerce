@@ -1,15 +1,12 @@
 import { Link } from "@inertiajs/react";
-import Button from "react-bootstrap/Button";
 
 export interface Props {
     url: string;
 }
 export default function EditButton({ url }: Props): JSX.Element {
-    // FIXME: fix this ts-ignore
     return (
-        // @ts-ignore
-        <Button variant="warning" as={Link} href={url}>
+        <Link href={url} className="btn btn-warning btn-sm">
             Edit
-        </Button>
+        </Link>
     );
 }

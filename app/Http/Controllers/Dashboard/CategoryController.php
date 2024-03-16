@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use Exception;
 use Inertia\Inertia;
 use App\Models\Category;
 use Illuminate\Http\Request;

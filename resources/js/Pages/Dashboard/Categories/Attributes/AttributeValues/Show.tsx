@@ -1,26 +1,22 @@
 import DetailItem from "@/Components/DataDisplay/DetailItem";
 import DetailsCard from "@/Components/DataDisplay/DetailsCard";
 import PageHeader from "@/Components/DataDisplay/PageHeader";
-import PageSubHeader from "@/Components/DataDisplay/PageSubHeader";
-import CreateButton from "@/Components/General/CreateButton";
 import DeleteButton from "@/Components/General/DeleteButton";
 import EditButton from "@/Components/General/EditButton";
-import ShowButton from "@/Components/General/ShowButton";
 import HSpace from "@/Components/Layout/HSpace";
 import Breadcrumbs from "@/Components/Navigation/Breadcrumbs";
 import { Attribute, AttributeValue, Category, PageProps } from "@/types";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import Table from "react-bootstrap/Table";
 
 export default function ({
     category,
     attribute,
-    attributeValues,
+    attributeValue,
 }: PageProps<{
     category: Category;
     attribute: Attribute;
-    attributeValues: AttributeValue[];
+    attributeValue: AttributeValue;
 }>): JSX.Element {
     return (
         <>
@@ -47,13 +43,25 @@ export default function ({
                             category,
                             attribute,
                         }),
+                        active: false,
+                    },
+                    {
+                        label: attributeValue.value,
+                        url: route(
+                            "dashboard.categories.attributes.attribute-values.show",
+                            {
+                                category,
+                                attribute,
+                                attributeValue,
+                            }
+                        ),
                         active: true,
                     },
                 ]}
             />
 
             <PageHeader
-                title="Attribute"
+                title="Attribute Value"
                 extra={
                     <HSpace>
                         <EditButton
@@ -81,78 +89,30 @@ export default function ({
             <DetailsCard>
                 <Row>
                     <Col>
-                        <DetailItem label="Id:" value={attribute.id} />
+                        <DetailItem label="Id:" value={attributeValue.id} />
                     </Col>
                     <Col>
-                        <DetailItem label="Type:" value={attribute.type} />
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
-                        <DetailItem label="Name:" value={attribute.name} />
+                        <DetailItem
+                            label="Value:"
+                            value={attributeValue.value}
+                        />
                     </Col>
                 </Row>
                 <Row>
                     <Col>
                         <DetailItem
                             label="Created At:"
-                            value={attribute.created_at}
+                            value={attributeValue.created_at}
                         />
                     </Col>
                     <Col>
                         <DetailItem
                             label="Updated At:"
-                            value={attribute.updated_at}
+                            value={attributeValue.updated_at}
                         />
                     </Col>
                 </Row>
             </DetailsCard>
-
-            <PageSubHeader
-                title="Values"
-                extra={
-                    <CreateButton
-                        url={route(
-                            "dashboard.categories.attributes.attribute-values.create",
-                            {
-                                category,
-                                attribute,
-                            }
-                        )}
-                    />
-                }
-            />
-            <Table striped bordered hover className="mt-1">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Value</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {attributeValues.map((attributeValue) => (
-                        <tr key={attributeValue.id}>
-                            <td>{attributeValue.id}</td>
-                            <td>{attributeValue.value}</td>
-                            <td>
-                                <HSpace>
-                                    <ShowButton
-                                        url={route(
-                                            "dashboard.categories.attributes.attribute-values.show",
-                                            {
-                                                category,
-                                                attribute,
-                                                attributeValue,
-                                            }
-                                        )}
-                                    />
-                                </HSpace>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </Table>
         </>
     );
 }

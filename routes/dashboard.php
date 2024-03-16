@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\Category\AttributeController;
+use App\Http\Controllers\Dashboard\Category\Attribute\AttributeValueController;
 
 Route::middleware(['auth', 'verified'])->group(function () {
 
@@ -37,4 +38,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('dashboard.categories.attributes.update');
     Route::delete('dashboard/categories/{category}/attributes/{attribute}', [AttributeController::class, 'destroy'])
         ->name('dashboard.categories.attributes.destroy');
+
+    Route::get('dashboard/categories/{category}/attributes/{attribute}/attribute-values/create', [AttributeValueController::class, 'create'])
+        ->name('dashboard.categories.attributes.attribute-values.create');
+    Route::post('dashboard/categories/{category}/attributes/{attribute}/attribute-values', [AttributeValueController::class, 'store'])
+        ->name('dashboard.categories.attributes.attribute-values.store');
+    Route::get('dashboard/categories/{category}/attributes/{attribute}/attribute-values/{attributeValue}', [AttributeValueController::class, 'show'])
+        ->name('dashboard.categories.attributes.attribute-values.show');
+    Route::get('dashboard/categories/{category}/attributes/{attribute}/attribute-values/{attributeValue}/edit', [AttributeValueController::class, 'edit'])
+        ->name('dashboard.categories.attributes.attribute-values.edit');
+    Route::patch('dashboard/categories/{category}/attributes/{attribute}/attribute-values/{attributeValue}', [AttributeValueController::class, 'update'])
+        ->name('dashboard.categories.attributes.attribute-values.update');
+    Route::delete('dashboard/categories/{category}/attributes/{attribute}/attribute-values/{attributeValue}', [AttributeValueController::class, 'destroy'])
+        ->name('dashboard.categories.attributes.attribute-values.destroy');
 });

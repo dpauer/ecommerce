@@ -1,4 +1,3 @@
-import Layout from "@/Layouts/Layout";
 import { Link, useForm } from "@inertiajs/react";
 import { FormEventHandler, useEffect } from "react";
 import Button from "react-bootstrap/Button";
@@ -31,7 +30,7 @@ export default function Login({
     };
 
     return (
-        <Layout>
+        <>
             <Card className="mt-3">
                 <Card.Body>
                     <Form onSubmit={submit}>
@@ -101,6 +100,6 @@ export default function Login({
                     </Form>
                 </Card.Body>
             </Card>
-        </Layout>
+        </>
     );
 }
