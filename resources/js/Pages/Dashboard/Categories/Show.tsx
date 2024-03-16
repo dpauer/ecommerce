@@ -1,8 +1,15 @@
+import DetailItem from "@/Components/DataDisplay/DetailItem";
+import DetailsCard from "@/Components/DataDisplay/DetailsCard";
+import PageHeader from "@/Components/DataDisplay/PageHeader";
+import PageSubHeader from "@/Components/DataDisplay/PageSubHeader";
+import CreateButton from "@/Components/General/CreateButton";
+import DeleteButton from "@/Components/General/DeleteButton";
+import EditButton from "@/Components/General/EditButton";
+import HSpace from "@/Components/Layout/HSpace";
+import Breadcrumbs from "@/Components/Navigation/Breadcrumbs";
 import Layout from "@/Layouts/Layout";
 import { Attribute, Category, PageProps } from "@/types";
 import { Link } from "@inertiajs/react";
-import Button from "react-bootstrap/Button";
-import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Table from "react-bootstrap/Table";
@@ -13,54 +20,64 @@ export default function ({
 }: PageProps<{ category: Category; attributes: Attribute[] }>): JSX.Element {
     return (
         <Layout>
-            <Row className="align-items-center justify-content-between">
-                <Col className="col-auto">
-                    <h1>Category</h1>
-                </Col>
-                <Col className="col-auto">
-                    <Row className="g-2">
-                        <Col className="col-auto">
-                            <Button variant="warning">MODIFICA</Button>
-                        </Col>
-                        <Col className="col-auto">
-                            <Button variant="danger">ELIMINA</Button>
-                        </Col>
-                    </Row>
-                </Col>
-            </Row>
-            <Card>
-                <Card.Body>
-                    <Card.Title>Details</Card.Title>
-                    <Card.Body>
-                        <Row>
-                            <Col>
-                                <b>Id:</b>
-                                <span className="ml-3">{category.id}</span>
-                            </Col>
-                            <Col>
-                                <b>Name:</b>
-                                <span className="ml-3">{category.name}</span>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                <b>Created At:</b>
-                                <span className="ml-3">
-                                    {category.created_at}
-                                </span>
-                            </Col>
-                            <Col>
-                                <b>Updated At:</b>
-                                <span className="ml-3">
-                                    {category.updated_at}
-                                </span>
-                            </Col>
-                        </Row>
-                    </Card.Body>
-                </Card.Body>
-            </Card>
-            <h3 className="mt-3">Attributes</h3>
-            <Table striped bordered hover>
+            <Breadcrumbs
+                items={[
+                    {
+                        label: "Dashboard",
+                        url: route("dashboard"),
+                        active: false,
+                    },
+                    {
+                        label: "Categories",
+                        url: route("dashboard.categories.index"),
+                        active: false,
+                    },
+                    {
+                        label: category.name,
+                        url: route("dashboard.categories.show", { category }),
+                        active: true,
+                    },
+                ]}
+            />
+
+            <PageHeader
+                title="Category"
+                extra={
+                    <HSpace>
+                        <EditButton />
+                        <DeleteButton />
+                    </HSpace>
+                }
+            />
+
+            <DetailsCard>
+                <Row>
+                    <Col>
+                        <DetailItem label="Id:" value={category.id} />
+                    </Col>
+                    <Col>
+                        <DetailItem label="Name:" value={category.name} />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <DetailItem
+                            label="Created At:"
+                            value={category.created_at}
+                        />
+                    </Col>
+                    <Col>
+                        <DetailItem
+                            label="Updated At:"
+                            value={category.updated_at}
+                        />
+                    </Col>
+                </Row>
+            </DetailsCard>
+
+            <PageSubHeader title="Attributes" extra={<CreateButton />} />
+
+            <Table striped bordered hover className="mt-1">
                 <thead>
                     <tr>
                         <th>#</th>

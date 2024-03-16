@@ -1,5 +1,6 @@
+import Breadcrumbs from "@/Components/Navigation/Breadcrumbs";
 import Layout from "@/Layouts/Layout";
-import { Head, Link } from "@inertiajs/react";
+import { Link } from "@inertiajs/react";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
@@ -7,7 +8,15 @@ import Row from "react-bootstrap/Row";
 export default function Dashboard() {
     return (
         <Layout>
-            <Head title="Dashboard" />
+            <Breadcrumbs
+                items={[
+                    {
+                        label: "Dashboard",
+                        url: route("dashboard"),
+                        active: true,
+                    },
+                ]}
+            />
 
             <Row className="mt-3">
                 <Col>

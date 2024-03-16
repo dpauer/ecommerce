@@ -21,6 +21,8 @@ class Attribute extends Model
     {
         return [
             'type' => AttributeTypeEnum::class,
+            'created_at' => 'datetime:Y-m-d H:i:s',
+            'updated_at' => 'datetime:Y-m-d H:i:s',
         ];
     }
 

@@ -1,3 +1,5 @@
+import PageHeader from "@/Components/DataDisplay/PageHeader";
+import Breadcrumbs from "@/Components/Navigation/Breadcrumbs";
 import Layout from "@/Layouts/Layout";
 import { Category, PageProps } from "@/types";
 import { Link } from "@inertiajs/react";
@@ -8,7 +10,23 @@ export default function ({
 }: PageProps<{ categories: Category[] }>): JSX.Element {
     return (
         <Layout>
-            <h1>Categories</h1>
+            <Breadcrumbs
+                items={[
+                    {
+                        label: "Dashboard",
+                        url: route("dashboard"),
+                        active: false,
+                    },
+                    {
+                        label: "Categories",
+                        url: route("dashboard.categories.index"),
+                        active: true,
+                    },
+                ]}
+            />
+
+            <PageHeader title="Categories" />
+
             <Table striped bordered hover>
                 <thead>
                     <tr>

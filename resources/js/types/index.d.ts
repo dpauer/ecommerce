@@ -20,6 +20,13 @@ export interface Attribute {
     updated_at: string;
 }
 
+export interface AttributeValue {
+    id: number;
+    value: string;
+    created_at: string;
+    updated_at: string;
+}
+
 export type PageProps<
     T extends Record<string, unknown> = Record<string, unknown>
 > = T & {
