@@ -1,0 +1,14 @@
+{
+    "singleQuote": false,
+    "arrowParens": "avoid",
+    "semi": false,
+    "overrides": [
+        {
+            "files": "*.php",
+            "options": {
+                "parser": "php",
+                "plugins": ["@prettier/plugin-php"]
+            }
+        }
+    ]
+}

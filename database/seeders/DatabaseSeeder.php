@@ -21,118 +21,128 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         User::factory()->create([
-            'name' => 'admin',
-            'email' => 'admin@example.com',
+            "name" => "admin",
+            "email" => "admin@example.com",
         ]);
 
         $this->seedTShirts();
         $this->seedJeans();
 
         Category::factory()->create([
-            'name' => 'SCARPE',
+            "name" => "SCARPE",
         ]);
 
         Category::factory()->create([
-            'name' => 'OROLOGI',
+            "name" => "OROLOGI",
         ]);
         Category::factory()->create([
-            'name' => 'PALLONI',
+            "name" => "PALLONI",
         ]);
     }
 
     private function seedTShirts()
     {
         $magliette = Category::factory()->create([
-            'name' => 'MAGLIETTE',
+            "name" => "MAGLIETTE",
         ]);
 
         $taglia = Attribute::factory()->create([
-            'name' => "taglia",
-            'category_id' => $magliette->id,
+            "name" => "taglia",
+            "category_id" => $magliette->id,
         ]);
         AttributeValue::factory()->create([
-            'attribute_id' => $taglia->id,
-            'value' => 'XS'
+            "attribute_id" => $taglia->id,
+            "value" => "XS",
         ]);
         AttributeValue::factory()->create([
-            'attribute_id' => $taglia->id,
-            'value' => 'S'
+            "attribute_id" => $taglia->id,
+            "value" => "S",
         ]);
         AttributeValue::factory()->create([
-            'attribute_id' => $taglia->id,
-            'value' => 'M'
+            "attribute_id" => $taglia->id,
+            "value" => "M",
         ]);
         AttributeValue::factory()->create([
-            'attribute_id' => $taglia->id,
-            'value' => 'L'
+            "attribute_id" => $taglia->id,
+            "value" => "L",
         ]);
         AttributeValue::factory()->create([
-            'attribute_id' => $taglia->id,
-            'value' => 'XL'
+            "attribute_id" => $taglia->id,
+            "value" => "XL",
         ]);
 
         $colore = Attribute::factory()->create([
-            'type' => AttributeTypeEnum::COLOR,
-            'name' => "colore",
-            'category_id' => $magliette->id,
+            "type" => AttributeTypeEnum::COLOR,
+            "name" => "colore",
+            "category_id" => $magliette->id,
         ]);
         $black = AttributeValue::factory()->create([
-            'attribute_id' => $colore->id,
-            'value' => '#000000'
+            "attribute_id" => $colore->id,
+            "value" => "#000000",
         ]);
         $white = AttributeValue::factory()->create([
-            'attribute_id' => $colore->id,
-            'value' => '#FFFFFF'
+            "attribute_id" => $colore->id,
+            "value" => "#FFFFFF",
         ]);
         AttributeValue::factory()->create([
-            'attribute_id' => $colore->id,
-            'value' => '#FF0000'
+            "attribute_id" => $colore->id,
+            "value" => "#FF0000",
         ]);
         AttributeValue::factory()->create([
-            'attribute_id' => $colore->id,
-            'value' => '#00FF00'
+            "attribute_id" => $colore->id,
+            "value" => "#00FF00",
         ]);
         AttributeValue::factory()->create([
-            'attribute_id' => $colore->id,
-            'value' => '#0000FF'
+            "attribute_id" => $colore->id,
+            "value" => "#0000FF",
         ]);
 
         $tessuto = Attribute::factory()->create([
-            'name' => "tessuto",
-            'category_id' => $magliette->id,
+            "name" => "tessuto",
+            "category_id" => $magliette->id,
         ]);
         AttributeValue::factory()->create([
-            'attribute_id' => $tessuto->id,
-            'value' => 'COTONE'
+            "attribute_id" => $tessuto->id,
+            "value" => "COTONE",
         ]);
         $wool = AttributeValue::factory()->create([
-            'attribute_id' => $tessuto->id,
-            'value' => 'LANA'
+            "attribute_id" => $tessuto->id,
+            "value" => "LANA",
         ]);
         AttributeValue::factory()->create([
-            'attribute_id' => $tessuto->id,
-            'value' => 'LINO'
+            "attribute_id" => $tessuto->id,
+            "value" => "LINO",
         ]);
         $silk = AttributeValue::factory()->create([
-            'attribute_id' => $tessuto->id,
-            'value' => 'SETA'
+            "attribute_id" => $tessuto->id,
+            "value" => "SETA",
         ]);
         AttributeValue::factory()->create([
-            'attribute_id' => $tessuto->id,
-            'value' => 'ACRILICO'
+            "attribute_id" => $tessuto->id,
+            "value" => "ACRILICO",
         ]);
 
+        $test = Attribute::factory()->create([
+            "name" => "test attribute",
+            "category_id" => $magliette->id,
+        ]);
+        for ($i = 0; $i < 1000; $i++) {
+            AttributeValue::factory()->create([
+                "attribute_id" => $test->id,
+                "value" => "$i - test attribute value",
+            ]);
+        }
 
         // maglietta bianca di seta
         $p1 = Product::factory()->create([
-            'name' => 't-shirt: seta, bianca'
+            "name" => "t-shirt: seta, bianca",
         ]);
         $p1->categories()->attach([$magliette->id]);
         $p1->attributeValues()->attach([$silk->id, $white->id]);
 
         // maglietta nera di lana
         $p2 = Product::factory()->create([
-            'name' => 't-shirt: lana, nera'
+            "name" => "t-shirt: lana, nera",
         ]);
         $p2->categories()->attach([$magliette->id]);
         $p2->attributeValues()->attach([$wool->id, $black->id]);
@@ -141,19 +151,19 @@ class DatabaseSeeder extends Seeder
     private function seedJeans()
     {
         $jeans = Category::factory()->create([
-            'name' => 'JEANS',
+            "name" => "JEANS",
         ]);
         Attribute::factory()->create([
-            'name' => "colore",
-            'category_id' => $jeans->id,
+            "name" => "colore",
+            "category_id" => $jeans->id,
         ]);
         Attribute::factory()->create([
-            'name' => "dimensione del giro vita",
-            'category_id' => $jeans->id,
+            "name" => "dimensione del giro vita",
+            "category_id" => $jeans->id,
         ]);
         Attribute::factory()->create([
-            'name' => "tipo di lavaggio",
-            'category_id' => $jeans->id,
+            "name" => "tipo di lavaggio",
+            "category_id" => $jeans->id,
         ]);
     }
 }

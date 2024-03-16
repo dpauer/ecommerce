@@ -5,18 +5,18 @@ TODO: card details -> sistemare detail item
 TODO: implementazione di base di una datatable
 
 routes
-    TODO: file dashboard sta diventando troppo verboso -> raggruppare per prefix/name
+TODO: file dashboard sta diventando troppo verboso -> raggruppare per prefix/name
 
 dashboard
-    TODO: crud attribute values
-    TODO: crud products
+TODO: crud attribute values
+TODO: crud products
 
 ecommerce
-    TODO: naive implementation
-    TODO: meilisearch implementation??
+TODO: naive implementation
+TODO: meilisearch implementation??
 
 TODO: scrivere readme
 TODO: sistemare e aggiungere progettazione
 
-frontend 
-    TODO: context?
+frontend
+TODO: context?
