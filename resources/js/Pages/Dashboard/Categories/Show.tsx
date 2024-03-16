@@ -48,7 +48,14 @@ export default function ({
                                 category,
                             })}
                         />
-                        <DeleteButton />
+                        <DeleteButton
+                            url={route("dashboard.categories.destroy", {
+                                category,
+                            })}
+                            modalTitle="Delete category"
+                            modalBody="Are you sure you want to delete this category?"
+                            successMessage="Category deleted successfully!"
+                        />
                     </HSpace>
                 }
             />
@@ -78,7 +85,16 @@ export default function ({
                 </Row>
             </DetailsCard>
 
-            <PageSubHeader title="Attributes" extra={<CreateButton />} />
+            <PageSubHeader
+                title="Attributes"
+                extra={
+                    <CreateButton
+                        url={route("dashboard.categories.attributes.create", {
+                            category,
+                        })}
+                    />
+                }
+            />
 
             <Table striped bordered hover className="mt-1">
                 <thead>

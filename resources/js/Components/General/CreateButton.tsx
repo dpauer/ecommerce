@@ -1,5 +1,12 @@
-import Button from "react-bootstrap/Button";
+import { Link } from "@inertiajs/react";
 
-export default function CreateButton(): JSX.Element {
-    return <Button variant="primary">Create</Button>;
+export interface Props {
+    url: string;
+}
+export default function CreateButton({ url }: Props): JSX.Element {
+    return (
+        <Link href={url} className="btn btn-primary">
+            Create
+        </Link>
+    );
 }

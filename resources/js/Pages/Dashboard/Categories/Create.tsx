@@ -1,24 +1,21 @@
 import PageHeader from "@/Components/DataDisplay/PageHeader";
 import Breadcrumbs from "@/Components/Navigation/Breadcrumbs";
-import { Category, PageProps } from "@/types";
 import { onSuccessHandler } from "@/utils/inertia";
 import { useForm } from "@inertiajs/react";
 import { FormEventHandler } from "react";
 import Card from "react-bootstrap/Card";
 import CategoryForm from "./Components/CategoryForm";
 
-export default function ({
-    category,
-}: PageProps<{ category: Category }>): JSX.Element {
-    const { data, setData, patch, errors } = useForm<{ name: string }>({
-        name: category.name,
+export default function (): JSX.Element {
+    const { data, setData, post, errors } = useForm<{ name: string }>({
+        name: "",
     });
 
     const onSubmitHandler: FormEventHandler = (e) => {
         e.preventDefault();
 
-        patch(route("dashboard.categories.update", { category }), {
-            onSuccess: onSuccessHandler("Category updated successfully!"),
+        post(route("dashboard.categories.store"), {
+            onSuccess: onSuccessHandler("Category created successfully!"),
         });
     };
 
@@ -37,19 +34,14 @@ export default function ({
                         active: false,
                     },
                     {
-                        label: category.name,
-                        url: route("dashboard.categories.show", { category }),
-                        active: false,
-                    },
-                    {
-                        label: "Edit",
-                        url: route("dashboard.categories.edit", { category }),
+                        label: "Create",
+                        url: route("dashboard.categories.create"),
                         active: true,
                     },
                 ]}
             />
 
-            <PageHeader title="Edit Category" />
+            <PageHeader title="Create Category" />
 
             <Card>
                 <Card.Body>

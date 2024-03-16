@@ -1,25 +1,37 @@
 import PageHeader from "@/Components/DataDisplay/PageHeader";
 import Breadcrumbs from "@/Components/Navigation/Breadcrumbs";
-import { Category, PageProps } from "@/types";
+import { Attribute, Category } from "@/types";
 import { onSuccessHandler } from "@/utils/inertia";
 import { useForm } from "@inertiajs/react";
 import { FormEventHandler } from "react";
 import Card from "react-bootstrap/Card";
-import CategoryForm from "./Components/CategoryForm";
+import AttributeForm from "./Components/AttributeForm";
 
-export default function ({
-    category,
-}: PageProps<{ category: Category }>): JSX.Element {
-    const { data, setData, patch, errors } = useForm<{ name: string }>({
-        name: category.name,
+export interface Props {
+    category: Category;
+    attribute: Attribute;
+}
+export default function ({ category, attribute }: Props): JSX.Element {
+    const { data, setData, patch, errors } = useForm<{
+        type: string;
+        name: string;
+    }>({
+        type: attribute.type,
+        name: attribute.name,
     });
 
     const onSubmitHandler: FormEventHandler = (e) => {
         e.preventDefault();
 
-        patch(route("dashboard.categories.update", { category }), {
-            onSuccess: onSuccessHandler("Category updated successfully!"),
-        });
+        patch(
+            route("dashboard.categories.attributes.update", {
+                category,
+                attribute,
+            }),
+            {
+                onSuccess: onSuccessHandler("Attribute updated successfully!"),
+            }
+        );
     };
 
     return (
@@ -42,18 +54,28 @@ export default function ({
                         active: false,
                     },
                     {
+                        label: attribute.name,
+                        url: route("dashboard.categories.attributes.show", {
+                            category,
+                            attribute,
+                        }),
+                        active: false,
+                    },
+                    {
                         label: "Edit",
-                        url: route("dashboard.categories.edit", { category }),
+                        url: route("dashboard.categories.attributes.edit", {
+                            category,
+                            attribute,
+                        }),
                         active: true,
                     },
                 ]}
             />
-
-            <PageHeader title="Edit Category" />
+            <PageHeader title="Edit Attribute" />
 
             <Card>
                 <Card.Body>
-                    <CategoryForm
+                    <AttributeForm
                         onSubmitHandler={onSubmitHandler}
                         data={data}
                         setData={setData}

@@ -1,24 +1,29 @@
 import PageHeader from "@/Components/DataDisplay/PageHeader";
 import Breadcrumbs from "@/Components/Navigation/Breadcrumbs";
-import { Category, PageProps } from "@/types";
+import { Category } from "@/types";
 import { onSuccessHandler } from "@/utils/inertia";
 import { useForm } from "@inertiajs/react";
 import { FormEventHandler } from "react";
 import Card from "react-bootstrap/Card";
-import CategoryForm from "./Components/CategoryForm";
+import AttributeForm from "./Components/AttributeForm";
 
-export default function ({
-    category,
-}: PageProps<{ category: Category }>): JSX.Element {
-    const { data, setData, patch, errors } = useForm<{ name: string }>({
-        name: category.name,
+export interface Props {
+    category: Category;
+}
+export default function ({ category }: Props): JSX.Element {
+    const { data, setData, post, errors } = useForm<{
+        type: string;
+        name: string;
+    }>({
+        type: "",
+        name: "",
     });
 
     const onSubmitHandler: FormEventHandler = (e) => {
         e.preventDefault();
 
-        patch(route("dashboard.categories.update", { category }), {
-            onSuccess: onSuccessHandler("Category updated successfully!"),
+        post(route("dashboard.categories.attributes.store", { category }), {
+            onSuccess: onSuccessHandler("Attribute created successfully!"),
         });
     };
 
@@ -42,18 +47,19 @@ export default function ({
                         active: false,
                     },
                     {
-                        label: "Edit",
-                        url: route("dashboard.categories.edit", { category }),
+                        label: "Create Attribute",
+                        url: route("dashboard.categories.attributes.create", {
+                            category,
+                        }),
                         active: true,
                     },
                 ]}
             />
-
-            <PageHeader title="Edit Category" />
+            <PageHeader title="Create Attribute" />
 
             <Card>
                 <Card.Body>
-                    <CategoryForm
+                    <AttributeForm
                         onSubmitHandler={onSubmitHandler}
                         data={data}
                         setData={setData}

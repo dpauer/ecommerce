@@ -2,9 +2,11 @@ import DetailItem from "@/Components/DataDisplay/DetailItem";
 import DetailsCard from "@/Components/DataDisplay/DetailsCard";
 import PageHeader from "@/Components/DataDisplay/PageHeader";
 import PageSubHeader from "@/Components/DataDisplay/PageSubHeader";
+import DeleteButton from "@/Components/General/DeleteButton";
+import EditButton from "@/Components/General/EditButton";
+import HSpace from "@/Components/Layout/HSpace";
 import Breadcrumbs from "@/Components/Navigation/Breadcrumbs";
 import { Attribute, AttributeValue, Category, PageProps } from "@/types";
-import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Table from "react-bootstrap/Table";
@@ -51,14 +53,26 @@ export default function ({
             <PageHeader
                 title="Attribute"
                 extra={
-                    <Row className="g-2">
-                        <Col className="col-auto">
-                            <Button variant="warning">MODIFICA</Button>
-                        </Col>
-                        <Col className="col-auto">
-                            <Button variant="danger">ELIMINA</Button>
-                        </Col>
-                    </Row>
+                    <HSpace>
+                        <EditButton
+                            url={route("dashboard.categories.attributes.edit", {
+                                category,
+                                attribute,
+                            })}
+                        />
+                        <DeleteButton
+                            url={route(
+                                "dashboard.categories.attributes.destroy",
+                                {
+                                    category,
+                                    attribute,
+                                }
+                            )}
+                            modalTitle="Delete attribute"
+                            modalBody="Are you sure you want to delete this attribute?"
+                            successMessage="Attribute deleted successfully!"
+                        />
+                    </HSpace>
                 }
             />
 

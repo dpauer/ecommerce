@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use Exception;
 use Inertia\Inertia;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -15,6 +16,22 @@ class CategoryController extends Controller
         return Inertia::render('Dashboard/Categories/Index', [
             'categories' => $categories
         ]);
+    }
+
+    public function create()
+    {
+        return Inertia::render('Dashboard/Categories/Create');
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255']
+        ]);
+
+        Category::create($request->all());
+
+        return redirect(route('dashboard.categories.index'));
     }
 
     public function show(Category $category)
@@ -43,5 +60,12 @@ class CategoryController extends Controller
         return redirect(route('dashboard.categories.show', [
             'category' => $category,
         ]));
+    }
+
+    public function destroy(Category $category)
+    {
+        $category->delete();
+
+        return redirect(route('dashboard.categories.index'));
     }
 }

@@ -1,4 +1,5 @@
 import PageHeader from "@/Components/DataDisplay/PageHeader";
+import CreateButton from "@/Components/General/CreateButton";
 import Breadcrumbs from "@/Components/Navigation/Breadcrumbs";
 import { Category, PageProps } from "@/types";
 import { Link } from "@inertiajs/react";
@@ -24,7 +25,12 @@ export default function ({
                 ]}
             />
 
-            <PageHeader title="Categories" />
+            <PageHeader
+                title="Categories"
+                extra={
+                    <CreateButton url={route("dashboard.categories.create")} />
+                }
+            />
 
             <Table striped bordered hover>
                 <thead>
