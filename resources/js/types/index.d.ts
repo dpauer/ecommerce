@@ -33,6 +33,7 @@ export interface AttributeValue {
 export interface Product {
   id: number
   name: string
+  price: number
 }
 export type PageProps<
   T extends Record<string, unknown> = Record<string, unknown>,

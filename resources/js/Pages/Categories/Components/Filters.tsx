@@ -4,8 +4,8 @@ import Form from "react-bootstrap/Form"
 
 export interface Props {
   attributes: Attribute[]
-  filters: Set<number>
-  setFilters: (arg0: Set<number>) => void
+  filters: number[]
+  setFilters: (arg0: number[]) => void
 }
 export default function ({
   attributes,
@@ -23,7 +23,7 @@ export default function ({
     } else {
       tmp.delete(attributeValue.id)
     }
-    setFilters(new Set(tmp))
+    setFilters(Array.from(tmp))
   }
   return (
     <Accordion>
@@ -39,7 +39,7 @@ export default function ({
                       <Form.Check
                         type="checkbox"
                         label={attributeValue.value}
-                        checked={filters.has(attributeValue.id)}
+                        checked={filters.includes(attributeValue.id)}
                         onChange={e => {
                           handleFilter(
                             attribute,

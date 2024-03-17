@@ -8,13 +8,15 @@ export function formatStringColumn<T>(
     title?: string | JSX.Element
     style?: CSSProperties
   },
-): DataTableColumn<T> {
+): DataTableColumn {
   const column = {
+    dataIndex,
     title: options?.title ?? dataIndex,
     render: (row: any) => {
       return row[dataIndex]
     },
     style: options?.style,
+    sortable: true,
   }
   return column
 }
@@ -23,7 +25,7 @@ export function formatButtonShowColumn<T>(
   routeName: string,
   getRouteParametersFunction: (row: any) => any,
   options?: { title?: string | JSX.Element; style?: CSSProperties },
-): DataTableColumn<T> {
+): DataTableColumn {
   const column = {
     title: options?.title ?? "",
     render: (row: any) => {

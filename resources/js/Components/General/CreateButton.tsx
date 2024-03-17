@@ -1,12 +1,12 @@
-import { Link } from "@inertiajs/react";
+import { Link } from "@inertiajs/react"
 
 export interface Props {
-    url: string;
+  url: string
 }
 export default function CreateButton({ url }: Props): JSX.Element {
-    return (
-        <Link href={url} className="btn btn-primary btn-sm">
-            Create
-        </Link>
-    );
+  return (
+    <Link href={url} className="btn btn-primary btn-sm">
+      Create
+    </Link>
+  )
 }

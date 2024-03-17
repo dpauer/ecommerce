@@ -1,36 +1,26 @@
 import { CSSProperties } from "react"
 
-export interface PaginatedData<T> {
-  current_page: number
-  data: T[]
-  first_page_url: string
-  from: string
-  last_page: string
-  last_page_url: string
-  links: {
-    url: string | null
-    label: string
-    active: boolean
-  }[]
-  next_page_url: string
-  path: string
-  per_page: number
-  prev_page_url: string
-  to: number
+export interface PaginatedData {
   total: number
+  per_page: number
+  current_page: number
+  last_page: number
+  from: number
+  to: number
+  data: any[]
 }
 
-export interface DataTableColumn<T> {
+export interface DataTableColumn {
   title?: string | JSX.Element
-  dataIndex?: keyof T
-  render?: (row: T) => JSX.Element
+  dataIndex?: string
+  render?: (row: any) => JSX.Element
   className?: string
   style?: CSSProperties
+  sortable?: boolean
 }
 
 export interface DataTableProps<T> {
   title?: string
-  columns: DataTableColumn<T>[]
-  paginatedData: PaginatedData<T>
-  filters: any
+  columns: DataTableColumn[]
+  routeName: string
 }

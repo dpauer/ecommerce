@@ -1,17 +1,41 @@
 import { isDefined } from "@/utils/misc"
-import { Link, router } from "@inertiajs/react"
-import { useState } from "react"
-import Pagination from "react-bootstrap/Pagination"
+import axios from "axios"
+import { useEffect, useState } from "react"
 import Table from "react-bootstrap/Table"
-import { DataTableProps } from "./types"
+import DataRow from "./DataRow"
+import ErrorRow from "./ErrorRow"
+import HeaderColumn from "./HeaderColumn"
+import LoadingRow from "./LoadingRow"
+import NoDataRow from "./NoDataRow"
+import Pagination from "./Pagination"
+import { DataTableProps, PaginatedData } from "./types"
 
 export default function DataTable<T>({
   title,
   columns,
-  paginatedData,
-  filters,
+  routeName,
 }: DataTableProps<T>): JSX.Element {
-  const [search, setSearch] = useState<any>(filters.search ?? "")
+  const [loading, setLoading] = useState(false)
+  const [paginatedData, setPaginatedData] = useState<PaginatedData>()
+  const [search, setSearch] = useState<string>("")
+  const [page, setPage] = useState<number>(1)
+  const [sort, setSort] = useState<{
+    column: string
+    direction: "asc" | "desc" | null
+  }>()
+
+  useEffect(() => {
+    setLoading(true)
+    axios
+      .post(routeName, { search, page, sort })
+      .then(res => res.data)
+      .then(data => {
+        setPaginatedData(data)
+      })
+      .finally(() => {
+        setLoading(false)
+      })
+  }, [search, page, sort])
 
   return (
     <>
@@ -25,11 +49,6 @@ export default function DataTable<T>({
           value={search}
           onChange={e => {
             setSearch(e.target.value)
-            router.get(
-              window.location.href,
-              { search: e.target.value, page: 1 },
-              { preserveState: true, preserveScroll: true, replace: true },
-            )
           }}
         />
       </div>
@@ -38,76 +57,35 @@ export default function DataTable<T>({
           <tr>
             {columns.map((el, colIdx) => {
               return (
-                <th key={colIdx} className={el.className} style={el.style}>
-                  {el.title}
-                </th>
+                <HeaderColumn
+                  key={colIdx}
+                  {...el}
+                  sort={sort}
+                  setSort={setSort}
+                />
               )
             })}
           </tr>
         </thead>
         <tbody>
-          {paginatedData.data.map((row, rowIdx) => (
-            <tr key={rowIdx}>
-              {columns.map((el, colIdx) => {
-                if (isDefined(el.dataIndex)) {
-                  const value = row[el.dataIndex]
-                  return (
-                    <td key={colIdx} className={el.className} style={el.style}>
-                      <>{value}</>
-                    </td>
-                  )
-                }
-                if (isDefined(el.render)) {
-                  return (
-                    <td key={colIdx} className={el.className} style={el.style}>
-                      <>{el.render(row)}</>
-                    </td>
-                  )
-                }
-                return (
-                  <td key={colIdx} className={el.className} style={el.style}>
-                    <>-</>
-                  </td>
-                )
-              })}
-            </tr>
-          ))}
+          {loading && <LoadingRow colSpan={columns.length} />}
+          {isDefined(paginatedData) ? (
+            <>
+              {paginatedData.total < 1 ? (
+                <NoDataRow colSpan={columns.length} />
+              ) : (
+                paginatedData.data.map((row, rowIdx) => (
+                  <DataRow key={rowIdx} columns={columns} row={row} />
+                ))
+              )}
+            </>
+          ) : (
+            <ErrorRow colSpan={columns.length} />
+          )}
         </tbody>
       </Table>
-      <Pagination className="d-flex justify-content-end">
-        <Pagination.First as={Link} href={paginatedData.first_page_url} />
-        <Pagination.Prev
-          as={paginatedData.prev_page_url ? Link : "span"}
-          href={paginatedData.prev_page_url}
-          disabled={!paginatedData.prev_page_url}
-        />
-        {paginatedData.links.slice(1, -1).map((el, idx) => {
-          if (isDefined(el.url)) {
-            return (
-              <Pagination.Item
-                key={idx}
-                className="d-none d-md-block"
-                active={el.active}
-                as={Link}
-                href={el.url}
-              >
-                {el.label}
-              </Pagination.Item>
-            )
-          }
-          return (
-            <Pagination.Item key={idx} className="d-none d-md-block" disabled>
-              {el.label}
-            </Pagination.Item>
-          )
-        })}
-        <Pagination.Next
-          as={paginatedData.next_page_url ? Link : "span"}
-          href={paginatedData.next_page_url}
-          disabled={!paginatedData.next_page_url}
-        />
-        <Pagination.Last as={Link} href={paginatedData.last_page_url} />
-      </Pagination>
+
+      <Pagination paginatedData={paginatedData} page={page} setPage={setPage} />
     </>
   )
 }

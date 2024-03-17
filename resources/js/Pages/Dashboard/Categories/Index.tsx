@@ -1,20 +1,12 @@
 import DataTable from "@/Components/DataDisplay/DataTable"
-import { PaginatedData } from "@/Components/DataDisplay/DataTable/types"
 import {
   formatButtonShowColumn,
   formatStringColumn,
 } from "@/Components/DataDisplay/DataTable/utils"
 import CreateButton from "@/Components/General/CreateButton"
 import Breadcrumbs from "@/Components/Navigation/Breadcrumbs"
-import { Category, PageProps } from "@/types"
 
-export default function ({
-  paginatedData,
-  filters,
-}: PageProps<{
-  paginatedData: PaginatedData<Category>
-  filters: any
-}>): JSX.Element {
+export default function (): JSX.Element {
   return (
     <>
       <Breadcrumbs
@@ -33,6 +25,7 @@ export default function ({
       />
 
       <DataTable
+        routeName={route("datatables.dashboard.categories.index")}
         title="Categories"
         columns={[
           formatStringColumn("id", {
@@ -52,8 +45,8 @@ export default function ({
             },
           ),
         ]}
-        paginatedData={paginatedData}
-        filters={filters}
+        // paginatedData={paginatedData}
+        // filters={filters}
       />
     </>
   )

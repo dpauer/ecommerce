@@ -1,5 +1,4 @@
 import DataTable from "@/Components/DataDisplay/DataTable"
-import { PaginatedData } from "@/Components/DataDisplay/DataTable/types"
 import {
   formatButtonShowColumn,
   formatStringColumn,
@@ -12,21 +11,15 @@ import DeleteButton from "@/Components/General/DeleteButton"
 import EditButton from "@/Components/General/EditButton"
 import HSpace from "@/Components/Layout/HSpace"
 import Breadcrumbs from "@/Components/Navigation/Breadcrumbs"
-import { Attribute, AttributeValue, Category, PageProps } from "@/types"
+import { Attribute, Category } from "@/types"
 import Col from "react-bootstrap/Col"
 import Row from "react-bootstrap/Row"
 
-export default function ({
-  category,
-  attribute,
-  paginatedData,
-  filters,
-}: PageProps<{
+export interface Props {
   category: Category
   attribute: Attribute
-  paginatedData: PaginatedData<AttributeValue>
-  filters: any
-}>): JSX.Element {
+}
+export default function ({ category, attribute }: Props): JSX.Element {
   return (
     <>
       <Breadcrumbs
@@ -105,6 +98,13 @@ export default function ({
       </DetailsCard>
 
       <DataTable
+        routeName={route(
+          "datatables.dashboard.categories.attributes.attribute-values.index",
+          {
+            category,
+            attribute,
+          },
+        )}
         title={"Values"}
         columns={[
           formatStringColumn("id", {
@@ -130,8 +130,6 @@ export default function ({
             },
           ),
         ]}
-        paginatedData={paginatedData}
-        filters={filters}
       />
     </>
   )

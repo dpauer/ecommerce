@@ -1,7 +1,8 @@
-TODO: implementazione di base di una datatable
-sort columns
-rapid search
+TODO: datatables
 throttle rapidsearch
+sort column fix direction changes
+extract backend
+pagination ellipsis fix
 
 routes
 TODO: file dashboard troppo verboso -> raggruppare per prefix/name

@@ -1,5 +1,7 @@
 import { PaginatedData } from "@/Components/DataDisplay/DataTable/types"
 import { Attribute, Category, Product } from "@/types"
+import { isDefined } from "@/utils/misc"
+import axios from "axios"
 import { useEffect, useState } from "react"
 import Col from "react-bootstrap/Col"
 import Form from "react-bootstrap/Form"
@@ -10,23 +12,34 @@ import Filters from "./Components/Filters"
 export interface Props {
   category: Category
   attributes: Attribute[]
-  products: PaginatedData<Product>
 }
-export default function ({
-  category,
-  attributes,
-  products,
-}: Props): JSX.Element {
-  const [filters, setFilters] = useState<Set<number>>(new Set())
+export default function ({ category, attributes }: Props): JSX.Element {
+  const [filters, setFilters] = useState<number[]>([])
   const [search, setSearch] = useState<string>("")
   const [priceSort, setPriceSort] = useState<string>("")
 
-  useEffect(() => {
-    console.log("changed filters", filters)
-    console.log("changed priceSort", priceSort)
-    console.log("changed search", search)
-  }, [filters, priceSort, search])
+  const [loading, setLoading] = useState(false)
+  const [products, setProducts] = useState<PaginatedData<Product>>()
 
+  useEffect(() => {
+    setLoading(true)
+    axios
+      .post(route("datatables.categories.products.index", { category }), {
+        filters,
+        search,
+        priceSort,
+      })
+      .then(res => res.data)
+      .then(data => {
+        setProducts(data)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+      .finally(() => {
+        setLoading(false)
+      })
+  }, [filters, search, priceSort])
   return (
     <>
       <h3>{category.name}</h3>
@@ -40,34 +53,28 @@ export default function ({
         </Col>
         <Col>
           <Row className="flex justify-content-between align-items-center mb-2">
-            <Col md="auto">1000 results found in 12ms</Col>
             <Col md="auto">
-              <Row className="align-items-center">
-                <Col xs="auto">
-                  <Form.Control
-                    style={{ width: 150 }}
-                    type="text"
-                    placeholder="Search..."
-                    value={search}
-                    onChange={e => {
-                      setSearch(e.target.value)
-                    }}
-                  ></Form.Control>
-                </Col>
-                <Col xs="auto">
-                  <Form.Select
-                    style={{ width: 200 }}
-                    value={priceSort}
-                    onChange={e => {
-                      setPriceSort(e.target.value)
-                    }}
-                  >
-                    <option value="">Sort...</option>
-                    <option value="asc">Price: Low to High</option>
-                    <option value="desc">Price: High to Low</option>
-                  </Form.Select>
-                </Col>
-              </Row>
+              <Form.Control
+                style={{ width: 150 }}
+                type="text"
+                placeholder="Search..."
+                value={search}
+                onChange={e => {
+                  setSearch(e.target.value)
+                }}
+              ></Form.Control>
+            </Col>
+            <Col md="auto">
+              <Form.Select
+                value={priceSort}
+                onChange={e => {
+                  setPriceSort(e.target.value)
+                }}
+              >
+                <option value="">Sort...</option>
+                <option value="asc">Price: Low to High</option>
+                <option value="desc">Price: High to Low</option>
+              </Form.Select>
             </Col>
           </Row>
           <div>
@@ -76,17 +83,20 @@ export default function ({
                 <tr>
                   <th>id</th>
                   <th>name</th>
+                  <th>price</th>
                 </tr>
               </thead>
               <tbody>
-                {products.data.map(product => {
-                  return (
-                    <tr key={product.id}>
-                      <td>{product.id}</td>
-                      <td>{product.name}</td>
-                    </tr>
-                  )
-                })}
+                {isDefined(products) &&
+                  products.data.map(product => {
+                    return (
+                      <tr key={product.id}>
+                        <td>{product.id}</td>
+                        <td>{product.name}</td>
+                        <td>{product.price}</td>
+                      </tr>
+                    )
+                  })}
               </tbody>
             </Table>
           </div>

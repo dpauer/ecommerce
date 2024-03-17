@@ -1,18 +1,14 @@
 import DataTable from "@/Components/DataDisplay/DataTable"
-import { PaginatedData } from "@/Components/DataDisplay/DataTable/types"
 import {
   formatButtonShowColumn,
   formatStringColumn,
 } from "@/Components/DataDisplay/DataTable/utils"
-import { Category, PageProps } from "@/types"
 
-export default function Welcome({
-  paginatedData,
-  filters,
-}: PageProps<{ paginatedData: PaginatedData<Category>; filters: any }>) {
+export default function Welcome() {
   return (
     <div className="mt-3">
       <DataTable
+        routeName={route("datatables.categories.index")}
         title="Categories"
         columns={[
           formatStringColumn("id", {
@@ -24,8 +20,6 @@ export default function Welcome({
             category: row.id,
           })),
         ]}
-        paginatedData={paginatedData}
-        filters={filters}
       />
     </div>
   )
