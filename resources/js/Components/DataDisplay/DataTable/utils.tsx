@@ -4,7 +4,10 @@ import { DataTableColumn } from "./types"
 
 export function formatStringColumn<T>(
   dataIndex: string,
-  options?: { title?: string; style?: CSSProperties; sortable?: boolean },
+  options?: {
+    title?: string | JSX.Element
+    style?: CSSProperties
+  },
 ): DataTableColumn<T> {
   const column = {
     title: options?.title ?? dataIndex,
@@ -12,7 +15,6 @@ export function formatStringColumn<T>(
       return row[dataIndex]
     },
     style: options?.style,
-    sortable: options?.sortable ?? false,
   }
   return column
 }
@@ -20,7 +22,7 @@ export function formatStringColumn<T>(
 export function formatButtonShowColumn<T>(
   routeName: string,
   getRouteParametersFunction: (row: any) => any,
-  options?: { title?: string; style?: CSSProperties },
+  options?: { title?: string | JSX.Element; style?: CSSProperties },
 ): DataTableColumn<T> {
   const column = {
     title: options?.title ?? "",

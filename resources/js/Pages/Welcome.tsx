@@ -7,27 +7,26 @@ import {
 import { Category, PageProps } from "@/types"
 
 export default function Welcome({
-  auth,
-  categories,
-}: PageProps<{ categories: PaginatedData<Category> }>) {
+  paginatedData,
+  filters,
+}: PageProps<{ paginatedData: PaginatedData<Category>; filters: any }>) {
   return (
-    <>
-      <h1>Categories</h1>
-
+    <div className="mt-3">
       <DataTable
+        title="Categories"
         columns={[
           formatStringColumn("id", {
             title: "#",
             style: { width: "10px" },
-            sortable: true,
           }),
           formatStringColumn("name"),
           formatButtonShowColumn("categories.show", row => ({
             category: row.id,
           })),
         ]}
-        paginatedData={categories}
+        paginatedData={paginatedData}
+        filters={filters}
       />
-    </>
+    </div>
   )
 }

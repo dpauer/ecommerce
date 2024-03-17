@@ -7,7 +7,6 @@ import {
 import DetailItem from "@/Components/DataDisplay/DetailItem"
 import DetailsCard from "@/Components/DataDisplay/DetailsCard"
 import PageHeader from "@/Components/DataDisplay/PageHeader"
-import PageSubHeader from "@/Components/DataDisplay/PageSubHeader"
 import CreateButton from "@/Components/General/CreateButton"
 import DeleteButton from "@/Components/General/DeleteButton"
 import EditButton from "@/Components/General/EditButton"
@@ -19,10 +18,12 @@ import Row from "react-bootstrap/Row"
 
 export default function ({
   category,
-  attributes,
+  paginatedData,
+  filters,
 }: PageProps<{
   category: Category
-  attributes: PaginatedData<Attribute>
+  paginatedData: PaginatedData<Attribute>
+  filters: any
 }>): JSX.Element {
   return (
     <>
@@ -86,31 +87,30 @@ export default function ({
         </Row>
       </DetailsCard>
 
-      <PageSubHeader
-        title="Attributes"
-        extra={
-          <CreateButton
-            url={route("dashboard.categories.attributes.create", {
-              category,
-            })}
-          />
-        }
-      />
-
       <DataTable
+        title="Attributes"
         columns={[
           formatStringColumn("id", {
             title: "#",
             style: { width: "10px" },
-            sortable: true,
           }),
           formatStringColumn("name"),
           formatButtonShowColumn(
             "dashboard.categories.attributes.show",
             row => ({ category, attribute: row.id }),
+            {
+              title: (
+                <CreateButton
+                  url={route("dashboard.categories.attributes.create", {
+                    category,
+                  })}
+                />
+              ),
+            },
           ),
         ]}
-        paginatedData={attributes}
+        paginatedData={paginatedData}
+        filters={filters}
       />
     </>
   )

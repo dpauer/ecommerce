@@ -4,14 +4,17 @@ import {
   formatButtonShowColumn,
   formatStringColumn,
 } from "@/Components/DataDisplay/DataTable/utils"
-import PageHeader from "@/Components/DataDisplay/PageHeader"
 import CreateButton from "@/Components/General/CreateButton"
 import Breadcrumbs from "@/Components/Navigation/Breadcrumbs"
 import { Category, PageProps } from "@/types"
 
 export default function ({
-  categories,
-}: PageProps<{ categories: PaginatedData<Category> }>): JSX.Element {
+  paginatedData,
+  filters,
+}: PageProps<{
+  paginatedData: PaginatedData<Category>
+  filters: any
+}>): JSX.Element {
   return (
     <>
       <Breadcrumbs
@@ -29,24 +32,28 @@ export default function ({
         ]}
       />
 
-      <PageHeader
-        title="Categories"
-        extra={<CreateButton url={route("dashboard.categories.create")} />}
-      />
-
       <DataTable
+        title="Categories"
         columns={[
           formatStringColumn("id", {
             title: "#",
             style: { width: "10px" },
-            sortable: true,
           }),
           formatStringColumn("name"),
-          formatButtonShowColumn("dashboard.categories.show", row => ({
-            category: row.id,
-          })),
+          formatButtonShowColumn(
+            "dashboard.categories.show",
+            row => ({
+              category: row.id,
+            }),
+            {
+              title: (
+                <CreateButton url={route("dashboard.categories.create")} />
+              ),
+            },
+          ),
         ]}
-        paginatedData={categories}
+        paginatedData={paginatedData}
+        filters={filters}
       />
     </>
   )

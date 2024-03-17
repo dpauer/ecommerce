@@ -4,17 +4,27 @@ namespace App\Http\Controllers\Dashboard;
 
 use Inertia\Inertia;
 use App\Models\Category;
+use App\Models\Attribute;
 use Illuminate\Http\Request;
+use App\Helpers\DataTableHelpers;
 use App\Http\Controllers\Controller;
 
 class CategoryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $categories = Category::paginate();
-        return Inertia::render("Dashboard/Categories/Index", [
-            "categories" => $categories,
-        ]);
+        return Inertia::render(
+            "Dashboard/Categories/Index",
+            DataTableHelpers::paginationHelper(
+                $request,
+                Category::query(),
+                ["name"],
+                fn($el) => [
+                    "id" => $el->id,
+                    "name" => $el->name,
+                ]
+            )
+        );
     }
 
     public function create()
@@ -33,11 +43,19 @@ class CategoryController extends Controller
         return redirect(route("dashboard.categories.index"));
     }
 
-    public function show(Category $category)
+    public function show(Request $request, Category $category)
     {
         return Inertia::render("Dashboard/Categories/Show", [
             "category" => $category,
-            "attributes" => $category->attributes()->paginate(),
+            ...DataTableHelpers::paginationHelper(
+                $request,
+                Attribute::query()->where("category_id", $category->id),
+                ["name"],
+                fn($el) => [
+                    "id" => $el->id,
+                    "name" => $el->name,
+                ]
+            ),
         ]);
     }
 

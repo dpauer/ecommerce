@@ -7,7 +7,6 @@ import {
 import DetailItem from "@/Components/DataDisplay/DetailItem"
 import DetailsCard from "@/Components/DataDisplay/DetailsCard"
 import PageHeader from "@/Components/DataDisplay/PageHeader"
-import PageSubHeader from "@/Components/DataDisplay/PageSubHeader"
 import CreateButton from "@/Components/General/CreateButton"
 import DeleteButton from "@/Components/General/DeleteButton"
 import EditButton from "@/Components/General/EditButton"
@@ -20,11 +19,13 @@ import Row from "react-bootstrap/Row"
 export default function ({
   category,
   attribute,
-  attributeValues,
+  paginatedData,
+  filters,
 }: PageProps<{
   category: Category
   attribute: Attribute
-  attributeValues: PaginatedData<AttributeValue>
+  paginatedData: PaginatedData<AttributeValue>
+  filters: any
 }>): JSX.Element {
   return (
     <>
@@ -103,34 +104,34 @@ export default function ({
         </Row>
       </DetailsCard>
 
-      <PageSubHeader
-        title="Values"
-        extra={
-          <CreateButton
-            url={route(
-              "dashboard.categories.attributes.attribute-values.create",
-              {
-                category,
-                attribute,
-              },
-            )}
-          />
-        }
-      />
       <DataTable
+        title={"Values"}
         columns={[
           formatStringColumn("id", {
             title: "#",
             style: { width: "10px" },
-            sortable: true,
           }),
           formatStringColumn("value"),
           formatButtonShowColumn(
             "dashboard.categories.attributes.attribute-values.show",
             row => ({ category, attribute, attributeValue: row.id }),
+            {
+              title: (
+                <CreateButton
+                  url={route(
+                    "dashboard.categories.attributes.attribute-values.create",
+                    {
+                      category,
+                      attribute,
+                    },
+                  )}
+                />
+              ),
+            },
           ),
         ]}
-        paginatedData={attributeValues}
+        paginatedData={paginatedData}
+        filters={filters}
       />
     </>
   )

@@ -6,8 +6,10 @@ use Inertia\Inertia;
 use App\Models\Category;
 use App\Models\Attribute;
 use Illuminate\Http\Request;
+use App\Models\AttributeValue;
 use Illuminate\Validation\Rule;
 use App\Enums\AttributeTypeEnum;
+use App\Helpers\DataTableHelpers;
 use App\Http\Controllers\Controller;
 
 class AttributeController extends Controller
@@ -35,12 +37,23 @@ class AttributeController extends Controller
         );
     }
 
-    public function show(Category $category, Attribute $attribute)
-    {
+    public function show(
+        Request $request,
+        Category $category,
+        Attribute $attribute
+    ) {
         return Inertia::render("Dashboard/Categories/Attributes/Show", [
             "category" => $category,
             "attribute" => $attribute,
-            "attributeValues" => $attribute->attributeValues()->paginate(),
+            ...DataTableHelpers::paginationHelper(
+                $request,
+                AttributeValue::query()->where("attribute_id", $attribute->id),
+                ["value"],
+                fn($el) => [
+                    "id" => $el->id,
+                    "value" => $el->value,
+                ]
+            ),
         ]);
     }
 

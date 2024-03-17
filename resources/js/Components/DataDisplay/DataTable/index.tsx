@@ -1,23 +1,48 @@
 import { isDefined } from "@/utils/misc"
-import { Link } from "@inertiajs/react"
+import { Link, router } from "@inertiajs/react"
+import { useState } from "react"
 import Pagination from "react-bootstrap/Pagination"
 import Table from "react-bootstrap/Table"
 import { DataTableProps } from "./types"
 
 export default function DataTable<T>({
+  title,
   columns,
   paginatedData,
+  filters,
 }: DataTableProps<T>): JSX.Element {
+  const [search, setSearch] = useState<any>(filters.search ?? "")
+
   return (
     <>
+      <div className="mb-2 d-flex justify-content-between align-items-center">
+        <h3>{title}</h3>
+        <input
+          style={{ width: 200 }}
+          className="form-control"
+          type="search"
+          placeholder="Search"
+          value={search}
+          onChange={e => {
+            setSearch(e.target.value)
+            router.get(
+              window.location.href,
+              { search: e.target.value, page: 1 },
+              { preserveState: true, preserveScroll: true, replace: true },
+            )
+          }}
+        />
+      </div>
       <Table striped hover bordered className="mt-1">
         <thead>
           <tr>
-            {columns.map((el, colIdx) => (
-              <th key={colIdx} className={el.className} style={el.style}>
-                {el.title}
-              </th>
-            ))}
+            {columns.map((el, colIdx) => {
+              return (
+                <th key={colIdx} className={el.className} style={el.style}>
+                  {el.title}
+                </th>
+              )
+            })}
           </tr>
         </thead>
         <tbody>
@@ -51,11 +76,11 @@ export default function DataTable<T>({
       </Table>
       <Pagination className="d-flex justify-content-end">
         <Pagination.First as={Link} href={paginatedData.first_page_url} />
-        {isDefined(paginatedData.prev_page_url) ? (
-          <Pagination.Prev as={Link} href={paginatedData.prev_page_url} />
-        ) : (
-          <Pagination.Prev disabled />
-        )}
+        <Pagination.Prev
+          as={paginatedData.prev_page_url ? Link : "span"}
+          href={paginatedData.prev_page_url}
+          disabled={!paginatedData.prev_page_url}
+        />
         {paginatedData.links.slice(1, -1).map((el, idx) => {
           if (isDefined(el.url)) {
             return (
@@ -76,11 +101,11 @@ export default function DataTable<T>({
             </Pagination.Item>
           )
         })}
-        {isDefined(paginatedData.next_page_url) ? (
-          <Pagination.Next as={Link} href={paginatedData.next_page_url} />
-        ) : (
-          <Pagination.Next disabled />
-        )}
+        <Pagination.Next
+          as={paginatedData.next_page_url ? Link : "span"}
+          href={paginatedData.next_page_url}
+          disabled={!paginatedData.next_page_url}
+        />
         <Pagination.Last as={Link} href={paginatedData.last_page_url} />
       </Pagination>
     </>
