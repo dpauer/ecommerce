@@ -1,9 +1,10 @@
 TODO: implementazione di base di una datatable
 sort columns
 rapid search
+throttle rapidsearch
 
 routes
-TODO: file dashboard sta diventando troppo verboso -> raggruppare per prefix/name
+TODO: file dashboard troppo verboso -> raggruppare per prefix/name
 
 dashboard
 TODO: crud products
