@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Datatables\Dashboard\Category;
+namespace App\Http\Controllers\Datatables\Dashboard\Product;
 
 use App\Models\Category;
-use App\Models\Attribute;
 use Illuminate\Http\Request;
 use App\Helpers\DatatableController;
 
-class AttributeController extends DatatableController
+class CategoryController extends DatatableController
 {
     public function getColumns()
     {
@@ -21,8 +20,10 @@ class AttributeController extends DatatableController
 
     public function buildQuery(Request $request)
     {
-        $query = Attribute::query();
-        $query->where("category_id", $request->category);
+        $query = Category::query();
+        $query->whereHas("products", function ($query) use ($request) {
+            $query->where("id", $request->product);
+        });
         return $query;
     }
 }

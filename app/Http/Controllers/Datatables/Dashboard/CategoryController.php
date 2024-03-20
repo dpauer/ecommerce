@@ -4,23 +4,22 @@ namespace App\Http\Controllers\Datatables\Dashboard;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Helpers\DatatableController;
 
-class CategoryController extends Controller
+class CategoryController extends DatatableController
 {
-    public function index(Request $request)
+    public function getColumns()
     {
-        $query = Category::query();
+        return ["id", "name"];
+    }
 
-        // handle page
-        $page = $request->get("page", 1);
+    public function getRapidSearchableColumns()
+    {
+        return ["name"];
+    }
 
-        // handle search
-        $search = $request->get("search", "");
-        if (strlen($search) > 0) {
-            $query->where("name", "like", $search . "%");
-        }
-
-        return $query->paginate(10, ["id", "name"], "page", $page);
+    public function buildQuery(Request $request)
+    {
+        return Category::query();
     }
 }

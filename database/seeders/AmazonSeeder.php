@@ -30,35 +30,12 @@ class AmazonSeeder extends Seeder
             $product = Product::firstOrCreate([
                 "name" => $row["title"],
                 "description" => $row["description"],
-                "price" => $row["price"] * 100,
+                "price" => $row["price"],
             ]);
             $category = Category::firstOrCreate([
                 "name" => $row["category"],
             ]);
             $product->categories()->syncWithoutDetaching([$category->id]);
-
-            // seed some attributes
-            foreach ($row["options"] as $option) {
-                $type = match ($option["title"]) {
-                    "Size" => AttributeTypeEnum::CHECKBOX,
-                    "Color" => AttributeTypeEnum::COLOR,
-                    default => AttributeTypeEnum::CHECKBOX,
-                };
-                $attribute = Attribute::firstOrCreate([
-                    "type" => $type,
-                    "category_id" => $category->id,
-                    "name" => $option["title"],
-                ]);
-                foreach ($option["values"] as $value) {
-                    $attributeValue = AttributeValue::firstOrCreate([
-                        "attribute_id" => $attribute->id,
-                        "value" => $value,
-                    ]);
-                    $product
-                        ->attributeValues()
-                        ->syncWithoutDetaching([$attributeValue->id]);
-                }
-            }
 
             // handle brand as category attribute
             $brandAttribute = Attribute::firstOrCreate([

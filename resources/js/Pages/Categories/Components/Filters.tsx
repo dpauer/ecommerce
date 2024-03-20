@@ -1,6 +1,6 @@
-import { Attribute, AttributeValue } from "@/types"
+import { Attribute } from "@/types"
 import Accordion from "react-bootstrap/Accordion"
-import Form from "react-bootstrap/Form"
+import Filter from "./Filter"
 
 export interface Props {
   attributes: Attribute[]
@@ -12,48 +12,16 @@ export default function ({
   filters,
   setFilters,
 }: Props): JSX.Element {
-  const handleFilter = (
-    attribute: Attribute,
-    attributeValue: AttributeValue,
-    checked: boolean,
-  ) => {
-    let tmp = new Set(filters)
-    if (checked) {
-      tmp.add(attributeValue.id)
-    } else {
-      tmp.delete(attributeValue.id)
-    }
-    setFilters(Array.from(tmp))
-  }
   return (
     <Accordion>
       {attributes.map((attribute, attributeIdx) => {
         return (
-          <Accordion.Item key={attributeIdx} eventKey={attributeIdx.toString()}>
-            <Accordion.Header>{attribute.name}</Accordion.Header>
-            <Accordion.Body>
-              {attribute.attribute_values.map(
-                (attributeValue, attributeValueIdx) => {
-                  return (
-                    <div key={attributeValueIdx} className="mb-3">
-                      <Form.Check
-                        type="checkbox"
-                        label={attributeValue.value}
-                        checked={filters.includes(attributeValue.id)}
-                        onChange={e => {
-                          handleFilter(
-                            attribute,
-                            attributeValue,
-                            e.target.checked,
-                          )
-                        }}
-                      />
-                    </div>
-                  )
-                },
-              )}
-            </Accordion.Body>
-          </Accordion.Item>
+          <Filter
+            key={attributeIdx}
+            attribute={attribute}
+            filters={filters}
+            setFilters={setFilters}
+          />
         )
       })}
     </Accordion>

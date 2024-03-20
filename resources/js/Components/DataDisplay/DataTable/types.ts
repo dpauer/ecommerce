@@ -19,8 +19,10 @@ export interface DataTableColumn {
   sortable?: boolean
 }
 
-export interface DataTableProps<T> {
+export interface DataTableProps {
   title?: string
   columns: DataTableColumn[]
   routeName: string
+  forceRefresh?: boolean
+  setForceRefresh?: (arg0: boolean) => void
 }

@@ -1,21 +1,27 @@
-TODO: datatables
-throttle rapidsearch
-sort column fix direction changes
-extract backend
-pagination ellipsis fix
+continuare da attach/detach product category attribute attributevalue
+sync index with model observers
 
-routes
+TODO: datatables ------
+TODO: debounce rapidsearch
+TODO: pagination ellipsis fix
+
+routes ------
 TODO: file dashboard troppo verboso -> raggruppare per prefix/name
 
-dashboard
+dashboard ------
 TODO: crud products
 
-ecommerce
-TODO: naive implementation
-TODO: meilisearch implementation??
+TODO: check route permissions ------
+datatables ecc
+
+TODO: meilisearch ------
+price change to float
+filter by price
+custom render for color type filter
+filter filters (faceted)
+
+TODO: seeder fix amazon seeder ------
+check on crud resources on db sync with meilisearch index
 
 TODO: scrivere readme
 TODO: sistemare e aggiungere progettazione
-
-TODO: check route permissions
-datatables ecc

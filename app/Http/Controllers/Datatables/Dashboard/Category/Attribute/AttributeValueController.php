@@ -2,31 +2,26 @@
 
 namespace App\Http\Controllers\Datatables\Dashboard\Category\Attribute;
 
-use App\Models\Category;
-use App\Models\Attribute;
 use Illuminate\Http\Request;
 use App\Models\AttributeValue;
-use App\Http\Controllers\Controller;
+use App\Helpers\DatatableController;
 
-class AttributeValueController extends Controller
+class AttributeValueController extends DatatableController
 {
-    public function index(
-        Request $request,
-        Category $category,
-        Attribute $attribute
-    ) {
+    public function getColumns()
+    {
+        return ["id", "value"];
+    }
+
+    public function getRapidSearchableColumns()
+    {
+        return ["value"];
+    }
+
+    public function buildQuery(Request $request)
+    {
         $query = AttributeValue::query();
-        $query->where("attribute_id", $attribute->id);
-
-        // handle page
-        $page = $request->get("page", 1);
-
-        // handle search
-        $search = $request->get("search", "");
-        if (strlen($search) > 0) {
-            $query->where("value", "like", $search . "%");
-        }
-
-        return $query->paginate(10, ["id", "value"], "page", $page);
+        $query->where("attribute_id", $request->attribute);
+        return $query;
     }
 }

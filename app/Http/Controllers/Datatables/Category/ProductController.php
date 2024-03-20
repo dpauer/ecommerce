@@ -16,9 +16,8 @@ class ProductController extends Controller
             $category->id,
         ]);
 
-        $priceSort = $request->get("priceSort", null);
-        if (!is_null($priceSort)) {
-            $products->orderBy("price", "desc");
+        if ($request->has("priceSort")) {
+            $products->orderBy("price", $request->get("priceSort"));
         }
 
         $filters = $request->get("filters", null);

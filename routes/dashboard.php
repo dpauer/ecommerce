@@ -2,9 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\Category\AttributeController;
 use App\Http\Controllers\Dashboard\Category\Attribute\AttributeValueController;
+use App\Http\Controllers\Dashboard\Product\CategoryController as ProductCategoryController;
 
 Route::middleware(["auth", "verified"])->group(function () {
     Route::get("dashboard", [DashboardController::class, "index"])->name(
@@ -89,4 +91,60 @@ Route::middleware(["auth", "verified"])->group(function () {
         "dashboard/categories/{category}/attributes/{attribute}/attribute-values/{attributeValue}",
         [AttributeValueController::class, "destroy"]
     )->name("dashboard.categories.attributes.attribute-values.destroy");
+
+    /**
+     * -------------------------------------------------------------------------
+     * Dashboard / Products
+     * ---
+     */
+    Route::get("dashboard/products", [ProductController::class, "index"])->name(
+        "dashboard.products.index"
+    );
+    Route::get("dashboard/products/create", [
+        ProductController::class,
+        "create",
+    ])->name("dashboard.products.create");
+    Route::post("dashboard/products", [
+        ProductController::class,
+        "store",
+    ])->name("dashboard.products.store");
+    Route::get("dashboard/products/{product}", [
+        ProductController::class,
+        "show",
+    ])->name("dashboard.products.show");
+    Route::get("dashboard/products/{product}/edit", [
+        ProductController::class,
+        "edit",
+    ])->name("dashboard.products.edit");
+    Route::patch("dashboard/products/{product}", [
+        ProductController::class,
+        "update",
+    ])->name("dashboard.products.update");
+    Route::delete("dashboard/products/{product}", [
+        ProductController::class,
+        "destroy",
+    ])->name("dashboard.products.destroy");
+
+    Route::get("dashboard/products/{product}/categories/attach", [
+        ProductCategoryController::class,
+        "showAttach",
+    ])->name("dashboard.products.categories.show-attach");
+    Route::post("dashboard/products/{product}/categories/attach", [
+        ProductCategoryController::class,
+        "attach",
+    ])->name("dashboard.products.categories.attach");
+
+    Route::get("dashboard/products/{product}/categories/{category}", [
+        ProductCategoryController::class,
+        "show",
+    ])->name("dashboard.products.categories.show");
+
+    Route::patch(
+        "dashboard/products/{product}/categories/{category}/attributes/{attribute}/attribute-values/{attributeValue}/attach",
+        [ProductCategoryController::class, "attachAttributeValue"]
+    )->name("dashboard.products.categories.attributes.attribute-values.attach");
+    Route::patch(
+        "dashboard/products/{product}/categories/{category}/attributes/{attribute}/attribute-values/{attributeValue}/detach",
+        [ProductCategoryController::class, "detachAttributeValue"]
+    )->name("dashboard.products.categories.attributes.attribute-values.detach");
 });

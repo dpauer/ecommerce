@@ -29,7 +29,9 @@ export default function Dashboard() {
       <Row className="mt-3">
         <Col>
           <Card>
-            <Card.Body>Products</Card.Body>
+            <Card.Body>
+              <Link href={route("dashboard.products.index")}>Products</Link>
+            </Card.Body>
           </Card>
         </Col>
       </Row>

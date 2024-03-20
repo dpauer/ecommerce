@@ -36,7 +36,7 @@ return new class extends Migration {
             $table->id();
             $table->string("name");
             $table->text("description")->nullable();
-            $table->unsignedInteger("price")->nullable();
+            $table->float("price")->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

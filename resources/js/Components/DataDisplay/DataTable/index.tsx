@@ -14,7 +14,9 @@ export default function DataTable<T>({
   title,
   columns,
   routeName,
-}: DataTableProps<T>): JSX.Element {
+  forceRefresh = false,
+  setForceRefresh = () => {},
+}: DataTableProps): JSX.Element {
   const [loading, setLoading] = useState(false)
   const [paginatedData, setPaginatedData] = useState<PaginatedData>()
   const [search, setSearch] = useState<string>("")
@@ -24,7 +26,7 @@ export default function DataTable<T>({
     direction: "asc" | "desc" | null
   }>()
 
-  useEffect(() => {
+  const handleGetData = () => {
     setLoading(true)
     axios
       .post(routeName, { search, page, sort })
@@ -35,7 +37,18 @@ export default function DataTable<T>({
       .finally(() => {
         setLoading(false)
       })
+  }
+
+  useEffect(() => {
+    handleGetData()
   }, [search, page, sort])
+
+  useEffect(() => {
+    if (forceRefresh) {
+      handleGetData()
+      setForceRefresh(false)
+    }
+  }, [forceRefresh])
 
   return (
     <>

@@ -1,5 +1,5 @@
 import { PaginatedData } from "@/Components/DataDisplay/DataTable/types"
-import { Attribute, Category, Product } from "@/types"
+import { Attribute, Category } from "@/types"
 import { isDefined } from "@/utils/misc"
 import axios from "axios"
 import { useEffect, useState } from "react"
@@ -19,7 +19,7 @@ export default function ({ category, attributes }: Props): JSX.Element {
   const [priceSort, setPriceSort] = useState<string>("")
 
   const [loading, setLoading] = useState(false)
-  const [products, setProducts] = useState<PaginatedData<Product>>()
+  const [products, setProducts] = useState<PaginatedData>()
 
   useEffect(() => {
     setLoading(true)
