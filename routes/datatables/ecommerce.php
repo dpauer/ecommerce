@@ -9,7 +9,7 @@ Route::post("datatables/categories", [
     "index",
 ])->name("datatables.categories.index");
 
-Route::post("datatables/categories/{category}/products", [
+Route::match(["get", "post"], "datatables/categories/{category}/products", [
     ProductController::class,
     "index",
 ])->name("datatables.categories.products.index");

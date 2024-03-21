@@ -28,12 +28,8 @@ class AttributeValueController extends Controller
         Category $category,
         Attribute $attribute
     ) {
-        $rule = match ($attribute->type) {
-            AttributeTypeEnum::CHECKBOX => ["required", "string", "max:255"],
-            AttributeTypeEnum::COLOR => ["required", "hex_color"],
-        };
         $request->validate([
-            "value" => $rule,
+            "value" => ["required", "string", "max:255"],
         ]);
 
         $attribute->attributeValues()->create($request->all());
@@ -82,12 +78,8 @@ class AttributeValueController extends Controller
         Attribute $attribute,
         AttributeValue $attributeValue
     ) {
-        $rule = match ($attribute->type) {
-            AttributeTypeEnum::CHECKBOX => ["required", "string", "max:255"],
-            AttributeTypeEnum::COLOR => ["required", "hex_color"],
-        };
         $request->validate([
-            "value" => $rule,
+            "value" => ["required", "string", "max:255"],
         ]);
 
         $attributeValue->update($request->all());

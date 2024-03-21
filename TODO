@@ -1,27 +1,8 @@
-continuare da attach/detach product category attribute attributevalue
-sync index with model observers
-
 TODO: datatables ------
 TODO: debounce rapidsearch
-TODO: pagination ellipsis fix
 
 routes ------
 TODO: file dashboard troppo verboso -> raggruppare per prefix/name
-
-dashboard ------
-TODO: crud products
-
-TODO: check route permissions ------
-datatables ecc
-
-TODO: meilisearch ------
-price change to float
-filter by price
-custom render for color type filter
-filter filters (faceted)
-
-TODO: seeder fix amazon seeder ------
-check on crud resources on db sync with meilisearch index
 
 TODO: scrivere readme
 TODO: sistemare e aggiungere progettazione

@@ -1,4 +1,3 @@
-import { PaginatedData } from "@/Components/DataDisplay/DataTable/types"
 import { Attribute, Category } from "@/types"
 import { isDefined } from "@/utils/misc"
 import axios from "axios"
@@ -8,6 +7,7 @@ import Form from "react-bootstrap/Form"
 import Row from "react-bootstrap/Row"
 import Table from "react-bootstrap/Table"
 import Filters from "./Components/Filters"
+import Pagination from "./Components/Pagination"
 
 export interface Props {
   category: Category
@@ -17,21 +17,44 @@ export default function ({ category, attributes }: Props): JSX.Element {
   const [filters, setFilters] = useState<number[]>([])
   const [search, setSearch] = useState<string>("")
   const [priceSort, setPriceSort] = useState<string>("")
+  const [pagination, setPagination] = useState<{
+    limit: number
+    offset: number
+  }>({
+    limit: 20,
+    offset: 0,
+  })
 
   const [loading, setLoading] = useState(false)
-  const [products, setProducts] = useState<PaginatedData>()
+  const [data, setData] = useState<{
+    hits: any[]
+    processingTimeMs: number
+    limit: number
+    offset: number
+    estimatedTotalHits: number
+    facetDistribution: { attributeValues: { [key: number]: number } }
+  }>()
 
-  useEffect(() => {
+  const getData = (
+    filters: number[],
+    search: string,
+    priceSort: string,
+    pagination: {
+      limit: number
+      offset: number
+    },
+  ) => {
     setLoading(true)
     axios
       .post(route("datatables.categories.products.index", { category }), {
         filters,
         search,
         priceSort,
+        pagination,
       })
       .then(res => res.data)
       .then(data => {
-        setProducts(data)
+        setData(data)
       })
       .catch(err => {
         console.log(err)
@@ -39,7 +62,15 @@ export default function ({ category, attributes }: Props): JSX.Element {
       .finally(() => {
         setLoading(false)
       })
+  }
+
+  useEffect(() => {
+    getData(filters, search, priceSort, { limit: 20, offset: 0 })
   }, [filters, search, priceSort])
+
+  useEffect(() => {
+    getData(filters, search, priceSort, pagination)
+  }, [pagination])
   return (
     <>
       <h3>{category.name}</h3>
@@ -49,6 +80,7 @@ export default function ({ category, attributes }: Props): JSX.Element {
             attributes={attributes}
             filters={filters}
             setFilters={setFilters}
+            facetDistribution={data?.facetDistribution}
           />
         </Col>
         <Col>
@@ -81,24 +113,39 @@ export default function ({ category, attributes }: Props): JSX.Element {
             <Table striped hover bordered className="mt-1">
               <thead>
                 <tr>
-                  <th>id</th>
-                  <th>name</th>
-                  <th>price</th>
+                  <th>Id</th>
+                  <th>Name</th>
+                  <th>Price</th>
                 </tr>
               </thead>
               <tbody>
-                {isDefined(products) &&
-                  products.data.map(product => {
+                {isDefined(data) &&
+                  data.hits.map(row => {
                     return (
-                      <tr key={product.id}>
-                        <td>{product.id}</td>
-                        <td>{product.name}</td>
-                        <td>{product.price}</td>
+                      <tr key={row.id}>
+                        <td>{row.id}</td>
+                        <td>{row.name}</td>
+                        <td style={{ textAlign: "right" }}>
+                          {new Intl.NumberFormat("en-IN", {
+                            style: "currency",
+                            currency: "EUR",
+                          }).format(row.price)}
+                        </td>
                       </tr>
                     )
                   })}
               </tbody>
             </Table>
+
+            {isDefined(data) && (
+              <Pagination
+                limit={data.limit}
+                offset={data.offset}
+                total={data.estimatedTotalHits}
+                pagination={pagination}
+                setPagination={setPagination}
+              />
+            )}
           </div>
         </Col>
       </Row>

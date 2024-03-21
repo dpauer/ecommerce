@@ -50,8 +50,6 @@ export default function AttributeValuesTable({
                   checked={attached}
                   label={attached ? "Attached" : "Detached"}
                   onChange={e => {
-                    console.log("----")
-                    console.log(e.target.checked)
                     const checked = e.target.checked
                     let routeName = route(
                       checked
@@ -68,7 +66,6 @@ export default function AttributeValuesTable({
                       preserveState: true,
                       preserveScroll: true,
                       onSuccess: () => {
-                        console.log("in on success", e.target)
                         onSuccessHandler(
                           checked
                             ? "Attribute value attached successfully!"

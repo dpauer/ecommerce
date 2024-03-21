@@ -6,11 +6,13 @@ export interface Props {
   attributes: Attribute[]
   filters: number[]
   setFilters: (arg0: number[]) => void
+  facetDistribution?: { attributeValues: { [key: number]: number } }
 }
 export default function ({
   attributes,
   filters,
   setFilters,
+  facetDistribution,
 }: Props): JSX.Element {
   return (
     <Accordion>
@@ -21,6 +23,7 @@ export default function ({
             attribute={attribute}
             filters={filters}
             setFilters={setFilters}
+            facetDistribution={facetDistribution}
           />
         )
       })}

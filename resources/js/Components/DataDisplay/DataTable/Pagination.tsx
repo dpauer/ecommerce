@@ -2,70 +2,41 @@ import { isDefined } from "@/utils/misc"
 import BPagination from "react-bootstrap/Pagination"
 import { PaginatedData } from "./types"
 
-// gpt stuff -------------------------------------------------------------------
-function generatePagination(
-  currentPage: number,
-  totalPages: number,
-  maxPagesToShow: number,
-) {
-  var pagination = []
-  var ellipsis = "..."
+function paginate({ current, max }: { current: number; max: number }) {
+  if (!current || !max) return null
 
-  // Make sure maxPagesToShow is an odd number
-  if (maxPagesToShow % 2 === 0) {
-    maxPagesToShow++
-  }
+  let prev = current === 1 ? null : current - 1,
+    next = current === max ? null : current + 1,
+    items: Array<string | number> = [1]
 
-  // Calculate the range of pages to display around the current page
-  var pagesOnEachSide = Math.floor(maxPagesToShow / 2)
+  if (current === 1 && max === 1) return { current, prev, next, items }
+  if (current > 4) items.push("…")
 
-  // Determine the start and end page numbers
-  var startPage = Math.max(1, currentPage - pagesOnEachSide)
-  var endPage = Math.min(totalPages, currentPage + pagesOnEachSide)
+  let r = 2,
+    r1 = current - r,
+    r2 = current + r
 
-  // Adjust start and end page numbers if necessary
-  if (endPage - startPage < maxPagesToShow - 1) {
-    if (startPage === 1) {
-      endPage = Math.min(totalPages, startPage + maxPagesToShow - 1)
-    } else if (endPage === totalPages) {
-      startPage = Math.max(1, endPage - maxPagesToShow + 1)
-    }
-  }
+  for (let i = r1 > 2 ? r1 : 2; i <= Math.min(max, r2); i++) items.push(i)
 
-  // Add page numbers
-  for (var i = startPage; i <= endPage; i++) {
-    pagination.push(i)
-  }
+  if (r2 + 1 < max) items.push("…")
+  if (r2 < max) items.push(max)
 
-  // Add ellipsis at the beginning if necessary
-  if (startPage > 1) {
-    pagination.unshift(ellipsis)
-    pagination.unshift(1) // Add the first page
-  }
-
-  // Add ellipsis at the end if necessary
-  if (endPage < totalPages) {
-    pagination.push(ellipsis)
-    pagination.push(totalPages) // Add the last page
-  }
-
-  return pagination
+  return { current, prev, next, items }
 }
-// gpt stuff -------------------------------------------------------------------
 
-export interface Props<T> {
-  paginatedData?: PaginatedData<T>
+export interface Props {
+  paginatedData?: PaginatedData
   page: number
   setPage: (arg0: number) => void
 }
-export default function Pagination<T>({
+export default function Pagination({
   paginatedData,
   page,
   setPage,
-}: Props<T>): JSX.Element {
+}: Props): JSX.Element {
   if (!isDefined(paginatedData)) {
     return (
-      <BPagination className="d-flex justify-content-end">
+      <BPagination>
         <BPagination.First disabled />
         <BPagination.Prev disabled />
         <BPagination.Next disabled />
@@ -74,14 +45,16 @@ export default function Pagination<T>({
     )
   }
 
-  const pagination = generatePagination(
-    paginatedData.current_page,
-    paginatedData.last_page,
-    5,
-  )
+  const pagination = paginate({
+    current: paginatedData.current_page,
+    max: paginatedData.last_page,
+  })
+  if (!isDefined(pagination)) {
+    return <></>
+  }
 
   return (
-    <BPagination className="d-flex justify-content-end">
+    <BPagination>
       <BPagination.First
         disabled={page < 2}
         onClick={() => {
@@ -95,13 +68,13 @@ export default function Pagination<T>({
         }}
       />
 
-      {pagination.map((el, idx) => {
-        if (el === "...") {
+      {pagination.items.map((el, idx) => {
+        if (typeof el === "string") {
           return (
             <BPagination.Ellipsis
               key={idx}
-              className="d-none d-md-block"
               disabled
+              className="d-none d-md-block"
             />
           )
         }

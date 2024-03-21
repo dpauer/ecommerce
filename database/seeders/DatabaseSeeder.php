@@ -72,7 +72,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $colore = Attribute::factory()->create([
-            "type" => AttributeTypeEnum::COLOR,
+            "type" => AttributeTypeEnum::CHECKBOX,
             "name" => "colore",
             "category_id" => $magliette->id,
         ]);

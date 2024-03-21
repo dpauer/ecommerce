@@ -1,4 +1,5 @@
 import { Attribute } from "@/types"
+import { isDefined } from "@/utils/misc"
 import { useEffect, useState } from "react"
 import Accordion from "react-bootstrap/Accordion"
 import Button from "react-bootstrap/Button"
@@ -8,11 +9,13 @@ export interface Props {
   attribute: Attribute
   filters: number[]
   setFilters: (arg0: number[]) => void
+  facetDistribution?: { attributeValues: { [key: number]: number } }
 }
 export default function Filter({
   attribute,
   filters,
   setFilters,
+  facetDistribution,
 }: Props): JSX.Element {
   const defaultSize = 5
   const [search, setSearch] = useState("")
@@ -45,26 +48,55 @@ export default function Filter({
               setSearch(e.target.value)
             }}
           />
-          {attributeValues.map((attributeValue, idx) => {
-            return (
-              <div key={idx}>
-                <Form.Check
-                  type="checkbox"
-                  label={attributeValue.value}
-                  checked={filters.includes(attributeValue.id)}
-                  onChange={e => {
-                    let tmp = new Set(filters)
-                    if (e.target.checked) {
-                      tmp.add(attributeValue.id)
-                    } else {
-                      tmp.delete(attributeValue.id)
-                    }
-                    setFilters(Array.from(tmp))
-                  }}
-                />
-              </div>
-            )
-          })}
+          {isDefined(facetDistribution)
+            ? attributeValues
+                .filter(attributeValue =>
+                  isDefined(
+                    facetDistribution.attributeValues[attributeValue.id],
+                  ),
+                )
+                .map((attributeValue, idx) => {
+                  let count =
+                    facetDistribution.attributeValues[attributeValue.id]
+                  return (
+                    <div key={idx}>
+                      <Form.Check
+                        type="checkbox"
+                        label={`${attributeValue.value} (${count})`}
+                        checked={filters.includes(attributeValue.id)}
+                        onChange={e => {
+                          let tmp = new Set(filters)
+                          if (e.target.checked) {
+                            tmp.add(attributeValue.id)
+                          } else {
+                            tmp.delete(attributeValue.id)
+                          }
+                          setFilters(Array.from(tmp))
+                        }}
+                      />
+                    </div>
+                  )
+                })
+            : attributeValues.map((attributeValue, idx) => {
+                return (
+                  <div key={idx}>
+                    <Form.Check
+                      type="checkbox"
+                      label={attributeValue.value}
+                      checked={filters.includes(attributeValue.id)}
+                      onChange={e => {
+                        let tmp = new Set(filters)
+                        if (e.target.checked) {
+                          tmp.add(attributeValue.id)
+                        } else {
+                          tmp.delete(attributeValue.id)
+                        }
+                        setFilters(Array.from(tmp))
+                      }}
+                    />
+                  </div>
+                )
+              })}
           {collapsed ? (
             <Button
               variant="link"
