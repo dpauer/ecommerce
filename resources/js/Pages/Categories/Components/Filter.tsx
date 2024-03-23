@@ -1,14 +1,15 @@
-import { Attribute } from "@/types"
+import { Attribute, AttributeValue } from "@/types"
 import { isDefined } from "@/utils/misc"
 import { useEffect, useState } from "react"
 import Accordion from "react-bootstrap/Accordion"
 import Button from "react-bootstrap/Button"
 import Form from "react-bootstrap/Form"
+import { FiltersType } from "./Filters"
 
 export interface Props {
   attribute: Attribute
-  filters: number[]
-  setFilters: (arg0: number[]) => void
+  filters: FiltersType
+  setFilters: (arg0: FiltersType) => void
   facetDistribution?: { attributeValues: { [key: number]: number } }
 }
 export default function Filter({
@@ -59,42 +60,26 @@ export default function Filter({
                   let count =
                     facetDistribution.attributeValues[attributeValue.id]
                   return (
-                    <div key={idx}>
-                      <Form.Check
-                        type="checkbox"
-                        label={`${attributeValue.value} (${count})`}
-                        checked={filters.includes(attributeValue.id)}
-                        onChange={e => {
-                          let tmp = new Set(filters)
-                          if (e.target.checked) {
-                            tmp.add(attributeValue.id)
-                          } else {
-                            tmp.delete(attributeValue.id)
-                          }
-                          setFilters(Array.from(tmp))
-                        }}
-                      />
-                    </div>
+                    <FilterCheckbox
+                      key={idx}
+                      label={`${attributeValue.value} (${count})`}
+                      attribute={attribute}
+                      attributeValue={attributeValue}
+                      filters={filters}
+                      setFilters={setFilters}
+                    />
                   )
                 })
             : attributeValues.map((attributeValue, idx) => {
                 return (
-                  <div key={idx}>
-                    <Form.Check
-                      type="checkbox"
-                      label={attributeValue.value}
-                      checked={filters.includes(attributeValue.id)}
-                      onChange={e => {
-                        let tmp = new Set(filters)
-                        if (e.target.checked) {
-                          tmp.add(attributeValue.id)
-                        } else {
-                          tmp.delete(attributeValue.id)
-                        }
-                        setFilters(Array.from(tmp))
-                      }}
-                    />
-                  </div>
+                  <FilterCheckbox
+                    key={idx}
+                    label={attributeValue.value}
+                    attribute={attribute}
+                    attributeValue={attributeValue}
+                    filters={filters}
+                    setFilters={setFilters}
+                  />
                 )
               })}
           {collapsed ? (
@@ -119,5 +104,42 @@ export default function Filter({
         </Accordion.Body>
       </Accordion.Item>
     </>
+  )
+}
+
+export function FilterCheckbox({
+  label,
+  attribute,
+  attributeValue,
+  filters,
+  setFilters,
+}: {
+  label: string
+  attribute: Attribute
+  attributeValue: AttributeValue
+  filters: { [key: string]: number[] }
+  setFilters: (arg0: { [key: string]: number[] }) => void
+}): JSX.Element {
+  return (
+    <Form.Check
+      type="checkbox"
+      label={label}
+      checked={(filters[attribute.name] ?? []).includes(attributeValue.id)}
+      onChange={e => {
+        let currentAttributeFilters = new Set<number>()
+        if (isDefined(filters[attribute.name])) {
+          currentAttributeFilters = new Set<number>(filters[attribute.name])
+        }
+        if (e.target.checked) {
+          currentAttributeFilters.add(attributeValue.id)
+        } else {
+          currentAttributeFilters.delete(attributeValue.id)
+        }
+        setFilters({
+          ...filters,
+          [attribute.name]: Array.from(currentAttributeFilters),
+        })
+      }}
+    />
   )
 }

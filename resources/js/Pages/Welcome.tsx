@@ -3,10 +3,20 @@ import {
   formatButtonShowColumn,
   formatStringColumn,
 } from "@/Components/DataDisplay/DataTable/utils"
+import Breadcrumbs from "@/Components/Navigation/Breadcrumbs"
 
 export default function Welcome() {
   return (
     <div className="mt-3">
+      <Breadcrumbs
+        items={[
+          {
+            label: "Home",
+            url: "/",
+            active: true,
+          },
+        ]}
+      />
       <DataTable
         routeName={route("datatables.categories.index")}
         title="Categories"

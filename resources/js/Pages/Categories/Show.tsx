@@ -1,3 +1,4 @@
+import Breadcrumbs from "@/Components/Navigation/Breadcrumbs"
 import { Attribute, Category } from "@/types"
 import { isDefined } from "@/utils/misc"
 import axios from "axios"
@@ -6,7 +7,7 @@ import Col from "react-bootstrap/Col"
 import Form from "react-bootstrap/Form"
 import Row from "react-bootstrap/Row"
 import Table from "react-bootstrap/Table"
-import Filters from "./Components/Filters"
+import Filters, { FiltersType } from "./Components/Filters"
 import Pagination from "./Components/Pagination"
 
 export interface Props {
@@ -14,7 +15,7 @@ export interface Props {
   attributes: Attribute[]
 }
 export default function ({ category, attributes }: Props): JSX.Element {
-  const [filters, setFilters] = useState<number[]>([])
+  const [filters, setFilters] = useState<FiltersType>({})
   const [search, setSearch] = useState<string>("")
   const [priceSort, setPriceSort] = useState<string>("")
   const [pagination, setPagination] = useState<{
@@ -36,7 +37,7 @@ export default function ({ category, attributes }: Props): JSX.Element {
   }>()
 
   const getData = (
-    filters: number[],
+    filters: FiltersType,
     search: string,
     priceSort: string,
     pagination: {
@@ -73,7 +74,23 @@ export default function ({ category, attributes }: Props): JSX.Element {
   }, [pagination])
   return (
     <>
+      <Breadcrumbs
+        items={[
+          {
+            label: "Home",
+            url: "/",
+            active: false,
+          },
+          {
+            label: category.name,
+            url: route("categories.show", { category }),
+            active: true,
+          },
+        ]}
+      />
+
       <h3>{category.name}</h3>
+
       <Row>
         <Col xs={4}>
           <Filters

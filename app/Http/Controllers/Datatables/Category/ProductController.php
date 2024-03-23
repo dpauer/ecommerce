@@ -30,9 +30,15 @@ class ProductController extends Controller
             $products->orderBy("price", $request->get("priceSort"));
         }
 
-        $filters = $request->get("filters", null);
-        if (!is_null($filters) && count($filters) > 0) {
-            $products->whereIn("attributeValues", $filters);
+        if ($request->has("filters")) {
+            foreach (
+                $request->input("filters", [])
+                as $attributeName => $attributeValues
+            ) {
+                if (!is_null($attributeValues) && count($attributeValues) > 0) {
+                    $products->whereIn("attributeValues", $attributeValues);
+                }
+            }
         }
 
         return $products->raw();

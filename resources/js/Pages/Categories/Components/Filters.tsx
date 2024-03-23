@@ -2,10 +2,13 @@ import { Attribute } from "@/types"
 import Accordion from "react-bootstrap/Accordion"
 import Filter from "./Filter"
 
+export interface FiltersType {
+  [key: string]: number[]
+}
 export interface Props {
   attributes: Attribute[]
-  filters: number[]
-  setFilters: (arg0: number[]) => void
+  filters: FiltersType
+  setFilters: (arg0: FiltersType) => void
   facetDistribution?: { attributeValues: { [key: number]: number } }
 }
 export default function ({
