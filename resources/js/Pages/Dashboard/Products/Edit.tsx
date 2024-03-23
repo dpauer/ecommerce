@@ -16,9 +16,9 @@ export default function ({ product }: Props): JSX.Element {
     description: string
     price: number
   }>({
-    name: product.name,
-    description: product.description,
-    price: product.price,
+    name: product.name ?? "",
+    description: product.description ?? "",
+    price: product.price ?? 0,
   })
 
   const onSubmitHandler: FormEventHandler = e => {

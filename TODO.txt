@@ -4,4 +4,8 @@ TODO: debounce rapidsearch
 routes ------
 TODO: file dashboard troppo verboso -> raggruppare per prefix/name
 
+ecommerce category/products page
+TODO: breadcrumb
+
 TODO: readme
+

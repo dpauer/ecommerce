@@ -39,26 +39,20 @@ Per integrare Meilisearch ho usato il pacchetto Scout di Laravel. Per mantenere 
 
 Per sviluppare la webapp ho usato il pacchetto Sail di Laravel, una cli che permette di interagire in modo molto semplice con l'ambiente di sviluppo in docker.
 
-Rimando alla [documentazione di Laravel](https://laravel.com/docs/11.x/sail) per approfondimenti. Assumendo che docker sia installato nel sistema, sarà sufficiente spostarsi nella root del progetto e lanciare il comando
+Rimando alla [documentazione di Laravel](https://laravel.com/docs/11.x/sail) per approfondimenti. Assumendo che docker sia installato nel sistema.
 
-```
-docker run --rm \
-    -u "$(id -u):$(id -g)" \
-    -v "$(pwd):/var/www/html" \
-    -w /var/www/html \
-    laravelsail/php83-composer:latest \
-    composer install --ignore-platform-reqs
-```
+Per installare tutte le dipendenze della webapp e fare migration, seed e primo setup indice meilisearch, lanciare lo script:
 
-quindi in termiali separati (sempre posizionati nella root del progetto lanciare):
+`bash start_up.sh`
 
--   copiare il file .env.example in .env e configurare la sezione DATABASE
--   `./vendor/bin/sail up` per far partire Sail
--   lanciare il comando `sail artisan key:generate`
--   lanciare il comando `sail composer install`
--   lanciare il comando `sail npm i`
--   lanciare il comando `sail npm run dev`
--   connettersi al db e creare il db con i parametri specificati allo step precedente
--   `sail artisan migrate:fresh && sail artisan db:seed --class=AmazonSeeder` per migrare il db e seedarlo con valori presenti in un file csv (usati anche da Meilisearch per una demo concept di ecommerce, [link](https://github.com/meilisearch/ecommerce-demo))
--   a questo punto si può esare la web app per testare le varie funzionalità implementate
--   credenziali per accedere alla dashboard: `admin@example.com` password: `password`
+a questo punto sarà possibile visitare la pagina `http://localhost` per accedere alla webapp.
+Per accedere alla dashbord le credenziali sono:
+
+-   username: `admin@example.com`
+-   password: `password`
+
+Per stoppare:
+
+`bash stop.sh`
+
+-   TODO: filters order by hit and keep only first 10

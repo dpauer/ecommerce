@@ -12,15 +12,17 @@ class Category extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['name'];
+    protected $fillable = ["name"];
 
     protected function casts(): array
     {
         return [
-            'created_at' => 'datetime:Y-m-d H:i:s',
-            'updated_at' => 'datetime:Y-m-d H:i:s',
+            "created_at" => "datetime:Y-m-d H:i:s",
+            "updated_at" => "datetime:Y-m-d H:i:s",
         ];
     }
+
+    protected $touches = ["products"];
 
     public function attributes(): HasMany
     {

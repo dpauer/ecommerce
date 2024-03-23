@@ -8,37 +8,34 @@ use App\Http\Controllers\Datatables\Dashboard\Category\Attribute\AttributeValueC
 use App\Http\Controllers\Datatables\Dashboard\Product\CategoryController as ProductCategoryController;
 use App\Http\Controllers\Datatables\Dashboard\Product\Category\Attribute\AttributeValueController as ProductCategoryAttributeAttributeValueController;
 
-Route::middleware(["auth", "verified"])->group(function () {
-    Route::post("datatables/dashboard/categories", [
-        CategoryController::class,
-        "index",
-    ])->name("datatables.dashboard.categories.index");
+Route::middleware(["auth", "verified"])
+    ->prefix("datatables/dashboard")
+    ->name("datatables.dashboard.")
+    ->group(function () {
+        Route::post("categories", [CategoryController::class, "index"])->name(
+            "categories.index"
+        );
 
-    Route::post("datatables/dashboard/categories/{category}/attributes", [
-        AttributeController::class,
-        "index",
-    ])->name("datatables.dashboard.categories.attributes.index");
+        Route::post("categories/{category}/attributes", [
+            AttributeController::class,
+            "index",
+        ])->name("categories.attributes.index");
 
-    Route::post(
-        "datatables/dashboard/categories/{category}/attributes/{attribute}/attribute-values",
-        [AttributeValueController::class, "index"]
-    )->name(
-        "datatables.dashboard.categories.attributes.attribute-values.index"
-    );
+        Route::post(
+            "categories/{category}/attributes/{attribute}/attribute-values",
+            [AttributeValueController::class, "index"]
+        )->name("categories.attributes.attribute-values.index");
 
-    Route::post("datatables/dashboard/products", [
-        ProductController::class,
-        "index",
-    ])->name("datatables.dashboard.products.index");
-    Route::post("datatables/dashboard/products/{product}/categories", [
-        ProductCategoryController::class,
-        "index",
-    ])->name("datatables.dashboard.products.categories.index");
+        Route::post("products", [ProductController::class, "index"])->name(
+            "products.index"
+        );
+        Route::post("products/{product}/categories", [
+            ProductCategoryController::class,
+            "index",
+        ])->name("products.categories.index");
 
-    Route::post(
-        "datatables/dashboard/products/{product}/categories/{category}/attributes/{attribute}/attribute-values",
-        [ProductCategoryAttributeAttributeValueController::class, "index"]
-    )->name(
-        "datatables.dashboard.products.categories.attributes.attribute-values.index"
-    );
-});
+        Route::post(
+            "products/{product}/categories/{category}/attributes/{attribute}/attribute-values",
+            [ProductCategoryAttributeAttributeValueController::class, "index"]
+        )->name("products.categories.attributes.attribute-values.index");
+    });
