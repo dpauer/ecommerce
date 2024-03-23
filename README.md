@@ -7,7 +7,8 @@ Ho diviso la web app in due sezioni:
 -   **dashbord**: sezione cui accede solo un utente loggato, in cui è possibile creare e gestire le risorse e i legami tra queste.
 -   **ecommerce**: sezione "guest" in cui qualsiasi visitatore può sfogliare il catalogo dell'ecommerce.
 
-Nota: ho ipotizzato che l'ecommerce sia una sorta di catalogo pubblico di prodotti, e quindi gli unici utenti loggati siano admin del sistema che lo mantengono aggiornato.
+Nota 1: ho ipotizzato che l'ecommerce sia una sorta di catalogo pubblico di prodotti, e quindi gli unici utenti loggati siano admin del sistema che lo mantengono aggiornato.
+Nota 2: mi sono ispirato alla [demo ecommerce](https://ecommerce.meilisearch.com/) presente nella documentazione di Meilisearch. Anche il db è stato seedato con un [file JSON](https://github.com/meilisearch/ecommerce-demo) presente nella relativa repo.
 
 ## Struttura DB
 
@@ -41,9 +42,7 @@ Per integrare Meilisearch ho usato il pacchetto Scout di Laravel. Per mantenere 
 
 Per sviluppare la webapp ho usato il pacchetto Sail di Laravel, una cli che permette di interagire in modo molto semplice con l'ambiente di sviluppo in docker.
 
-Mi sono ispirato alla [demo ecommerce](https://ecommerce.meilisearch.com/) presente nella documentazione di Meilisearch. Anche il db è stato seedato con un [file JSON](https://github.com/meilisearch/ecommerce-demo) presente nella relativa repo.
-
-Rimando alla [documentazione di Laravel](https://laravel.com/docs/11.x/sail) per approfondimenti. Assumendo che docker sia installato nel sistema.
+Rimando alla [documentazione di Laravel](https://laravel.com/docs/11.x/sail) per approfondimenti. Assumo che docker sia installato nel sistema (Linux o Mac).
 
 Per installare tutte le dipendenze della webapp e fare migration, seed e primo setup indice meilisearch, lanciare lo script:
 
