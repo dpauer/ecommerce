@@ -8,6 +8,7 @@ Ho diviso la web app in due sezioni:
 -   **ecommerce**: sezione "guest" in cui qualsiasi visitatore può sfogliare il catalogo dell'ecommerce.
 
 Nota 1: ho ipotizzato che l'ecommerce sia una sorta di catalogo pubblico di prodotti, e quindi gli unici utenti loggati siano admin del sistema che lo mantengono aggiornato.
+
 Nota 2: mi sono ispirato alla [demo ecommerce](https://ecommerce.meilisearch.com/) presente nella documentazione di Meilisearch. Anche il db è stato seedato con un [file JSON](https://github.com/meilisearch/ecommerce-demo) presente nella relativa repo.
 
 ## Struttura DB
