@@ -24,4 +24,5 @@ echo "migration && seeding db..."
 ./vendor/bin/sail artisan scout:sync-index-settings 
 ./vendor/bin/sail artisan scout:import "App\Models\Product"
 
+echo "visit http://localhost"
 echo "done!"
