@@ -13,7 +13,7 @@ Nota: ho ipotizzato che l'ecommerce sia una sorta di catalogo pubblico di prodot
 
 -   **products**: tabella contenente tutti i prodotti
 -   **categories**: tabella contenente tutte le categorie
--   **attributes**: tabella contenente tutti gli attributi di una categorie. La relazione tra categories e attributes è del tipo uno a molti.
+-   **attributes**: tabella contenente tutti gli attributi di una categoria. La relazione tra categories e attributes è del tipo uno a molti.
 -   **attribute_values**: tabella contenente tutti i valori di un attributo. La relazione tra attributes e attribute_values è del tipo uno a molti.
 -   **category_product**: tabella pivot che gestisce il legame tra le categorie e i prodotti. (molti a molti)
 -   **attribute_value_product**: tabella pivot che gestisce il legame tra le i valori di un attributo e i prodotti. (molti a molti)
@@ -24,7 +24,7 @@ Ho deciso di implementare il legame tra categorie e prodotti anche se si sarebbe
 
 ## Funzione filtro stile "Amazon"
 
-Inizialmente avevo pensato di fare una implementazione custom di questa pagina, ma poi ho optato per l'utilizzo di Meilisearch, che permette di indicizzare le informazioni di una o più tabelle di un database e poi effettuare in modo efficiente operazione di ricerca, filtro e ordinamento.
+Ho usato Meilisearch, che permette di indicizzare le informazioni di una o più tabelle di un database e poi effettuare in modo efficiente operazioni di ricerca, filtro e ordinamento.
 
 Nello specifico ho creato in Meilisearch un solo indice, "products" che contiene per ogni prodotto le colonne:
 
@@ -55,4 +55,9 @@ Per stoppare:
 
 `bash stop.sh`
 
--   TODO: filters order by hit and keep only first 10
+## TODO:
+
+-   **pagina filtro stile "Amazon"**: rendere più usabile il componente filtro (es: ordinare per hit desc, tenere solo i primi 10, ...)
+-   **datatable && meilisearch datatable**: debounce del campo di ricerca "rapidsearch" per evitare di spammare di richieste il server
+-   **dashboard forms**: aggiungere "disable / loading"
+-   **meilisearch datatable**: estrarre backend e frontend in modo da renderlo usabile e parametrizzabile in altre sezioni della webapp (ad esempio nel caso servano altri tipi di indice)

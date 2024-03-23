@@ -18,7 +18,7 @@ export default function AttributeValuesTable({
   attribute,
 }: Props): JSX.Element {
   const [forceRefresh, setForceRefresh] = useState(false)
-  const { patch } = useForm()
+  const { patch, processing } = useForm()
 
   return (
     <DataTable
@@ -46,6 +46,7 @@ export default function AttributeValuesTable({
             return (
               <>
                 <Form.Check
+                  disabled={processing}
                   type="switch"
                   checked={attached}
                   label={attached ? "Attached" : "Detached"}

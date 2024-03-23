@@ -1,6 +1,0 @@
-TODO: datatables ------
-TODO: debounce rapidsearch
-
-routes ------
-TODO: readme
-
