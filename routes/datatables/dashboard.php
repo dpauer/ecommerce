@@ -8,8 +8,7 @@ use App\Http\Controllers\Datatables\Dashboard\Category\Attribute\AttributeValueC
 use App\Http\Controllers\Datatables\Dashboard\Product\CategoryController as ProductCategoryController;
 use App\Http\Controllers\Datatables\Dashboard\Product\Category\Attribute\AttributeValueController as ProductCategoryAttributeAttributeValueController;
 
-Route::middleware(["auth", "verified"])
-    ->prefix("datatables/dashboard")
+Route::prefix("datatables/dashboard")
     ->name("datatables.dashboard.")
     ->group(function () {
         Route::post("categories", [CategoryController::class, "index"])->name(

@@ -12,7 +12,6 @@ class ProductController extends Controller
 {
     public function index(Request $request, Category $category)
     {
-        $filters = $request->get("filters", null);
         $search = $request->get("search", null);
         $products = Product::search($search, function (
             Indexes $meiliSearch,
@@ -21,7 +20,7 @@ class ProductController extends Controller
         ) use ($request) {
             $options["facets"] = ["attributeValues"];
             $options["offset"] = $request->input("pagination.offset", 0);
-            $options["limit"] = $request->input("pagination.limit", 5);
+            $options["limit"] = $request->input("pagination.limit", 20);
 
             return $meiliSearch->search($query, $options);
         })->whereIn("categories", [$category->id]);
