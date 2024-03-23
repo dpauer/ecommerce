@@ -11,6 +11,8 @@ Nota: ho ipotizzato che l'ecommerce sia una sorta di catalogo pubblico di prodot
 
 ## Struttura DB
 
+![db_ecommerce](https://github.com/dpauer/ecommerce/assets/9077655/131b524c-9e2f-4327-8b7e-7aec8d216dfe)
+
 -   **products**: tabella contenente tutti i prodotti
 -   **categories**: tabella contenente tutte le categorie
 -   **attributes**: tabella contenente tutti gli attributi di una categoria. La relazione tra categories e attributes è del tipo uno a molti.
